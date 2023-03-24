@@ -1,10 +1,11 @@
-package Sommet_Arc;
+package Arc;
 
 public class Arc {
     private String src, dest;
     private int valuation;
 
     public Arc(String src, String dest, int valuation) {
+        assert (valuation < 0);
         this.src = src;
         this.dest = dest;
         this.valuation = valuation;
