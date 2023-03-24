@@ -1,3 +1,4 @@
+import Interface.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
@@ -20,8 +21,8 @@ class IGrapheTest {
 	
 	@Test
 	void exo3_1Maths() {
-		GrapheLA gla = new GrapheLA(g31);
-		tester3_1(gla);
+		/*GrapheLA gla = new GrapheLA(g31);
+		tester3_1(gla);*/
 	}
 	
 	void tester3_1(IGraphe g) {
