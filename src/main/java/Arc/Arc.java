@@ -19,6 +19,10 @@ public class Arc {
         return src;
     }
 
+    public Arc getArc() {
+        return this;
+    }
+
     public int getValuation() {
         return valuation;
     }

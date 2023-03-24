@@ -3,6 +3,7 @@ package Representation;
 import Interface.IGraphe;
 import Arc.Arc;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,22 +18,22 @@ public class GrapheLAdj implements IGraphe {
 
     @Override
     public void ajouterSommet(String noeud) {
-
+        ladj.put(noeud, new ArrayList<>());
     }
 
     @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
-
+        ladj.put()
     }
 
     @Override
     public void oterSommet(String noeud) {
-
+        ladj.remove(noeud);
     }
 
     @Override
     public void oterArc(String source, String destination) {
-
+        ladj.get(source).remove();
     }
 
     @Override
