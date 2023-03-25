@@ -24,8 +24,7 @@ public class GrapheLAdj implements IGraphe {
     @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
         List<Arc> ajoutArc = new ArrayList<>();
-        Arc a = new Arc(source,destination,valeur);
-        ajoutArc.add(a);
+        ajoutArc.add(new Arc(source,destination,valeur));
 
         //On Ajoute l'arc pour le sommet source (a voir)
         ladj.put(source, ajoutArc);

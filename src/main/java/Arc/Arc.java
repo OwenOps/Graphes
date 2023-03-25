@@ -19,12 +19,22 @@ public class Arc {
         return src;
     }
 
-    public Arc getArc() {
-        return this;
-    }
-
     public int getValuation() {
         return valuation;
+    }
+
+    public void removeSrc() {
+        src = null;
+    }
+
+    public void removeDst() {
+        dest = null;
+    }
+
+    public void removeArc() {
+        src = null;
+        dest = null;
+        valuation = 0;
     }
 
     public void setDest(String dest) {
