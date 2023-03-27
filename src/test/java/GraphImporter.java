@@ -2,6 +2,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
+import Arc.Arc;
+import Interface.IGraphe;
 
 public class GraphImporter {
 	public static int importerReponse(String filePath, List<Integer> chemin) throws FileNotFoundException {
@@ -34,7 +36,7 @@ public class GraphImporter {
 				line = sc.nextLine();
 				a = parse(line);
 				if (sc.hasNextLine())
-					g.ajouterArc(a.getSource(), a.getDestination(), a.getValuation());
+					g.ajouterArc(a.getSrc(), a.getDest(), a.getValuation());
 			}
 			return a;
 		} catch (FileNotFoundException e) {

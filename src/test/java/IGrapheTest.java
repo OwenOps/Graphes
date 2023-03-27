@@ -3,6 +3,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
+import Representation.GrapheLAdj;
 import Representation.GrapheLArcs;
 import org.junit.jupiter.api.Test;
 

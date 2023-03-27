@@ -17,15 +17,27 @@ public class GrapheLAdj implements IGraphe {
 
     @Override
     public void ajouterSommet(String noeud) {
-        // On ajoute le clef de type STRING = noeud et comme valeur une liste vide
-        ladj.put(noeud, new ArrayList<>());
+        if (!(ladj.containsKey(noeud)))
+            ladj.put(noeud, new ArrayList<>());
     }
 
     @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
         List<Arc> ajoutArc = new ArrayList<>();
-        ajoutArc.add(new Arc(source,destination,valeur));
 
+        //Verification si arc est deja present
+        for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
+            if (entry.getKey().equals(source)) {
+                //On stocke les liste d'arcs dans une autre liste pour y acceder plus facilement
+                List<Arc> arcs = entry.getValue();
+                for (Arc arc : arcs){
+                    if (arc.getSrc().equals(source) && arc.getDest().equals(destination))
+                        return;
+                    else
+                        ajoutArc.add(new Arc(source,destination,valeur));
+                }
+            }
+        }
         //On Ajoute l'arc pour le sommet source (a voir)
         ladj.put(source, ajoutArc);
     }
@@ -87,7 +99,7 @@ public class GrapheLAdj implements IGraphe {
 
     @Override
     public boolean contientSommet(String sommet) {
-        return ladj.get(sommet) != null;
+        return ladj.containsKey(sommet);
     }
 
     @Override
@@ -106,7 +118,18 @@ public class GrapheLAdj implements IGraphe {
         return false;
     }
 
-    /*public String toString() {
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
 
-    }*/
+        for (Map.Entry<String, List<Arc>> entry: ladj.entrySet()) {
+            sb.append(entry.getKey());
+            sb.append(", ");
+
+            for (int i = 0; i < entry.getValue().size(); i++) {
+                sb.append(entry.getValue().get(i).getDest() + ",");
+            }
+            sb.append(" -- ");
+        }
+        return sb.toString();
+    }
 }

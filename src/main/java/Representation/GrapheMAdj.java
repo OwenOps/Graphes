@@ -25,7 +25,7 @@ public class GrapheMAdj implements IGraphe {
 
     @Override
     public void ajouterSommet(String noeud) {
-
+        indice.put(noeud, 0);
     }
 
     @Override
