@@ -105,4 +105,8 @@ public class GrapheLAdj implements IGraphe {
         }
         return false;
     }
+
+    /*public String toString() {
+
+    }*/
 }

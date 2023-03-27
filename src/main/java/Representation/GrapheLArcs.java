@@ -7,20 +7,21 @@ import java.util.*;
 
 public class GrapheLArcs implements IGraphe {
     private List<Arc> arcs;
-
-    public GrapheLArcs(Arc arc) {
-        this.arcs = new ArrayList<>();
-        if (isNull(arc))
-            arcs.add(setArcFactice(arc));
-        else
-            arcs.add(arc);
+    private List<String> sommets;
+    public GrapheLArcs() {
+        arcs = new ArrayList<>();
+        sommets = new ArrayList<>();
+    }
+    public GrapheLArcs(String graphe) {
+        this();
+        peupler(graphe);
     }
 
     public List<Arc> getArcs() {
         return arcs;
     }
 
-    private boolean isNull(Arc arc) {
+    /*private boolean isNull(Arc arc) {
         return arc.getDest() == null && arc.getSrc() == null;
     }
 
@@ -28,16 +29,22 @@ public class GrapheLArcs implements IGraphe {
         arc.setValuation(0);
         arc.setDest("");
         return arc;
-    }
+    }*/
 
     @Override
     public void ajouterSommet(String noeud) {
-        //Comment faire alors que c'est qu'une liste d'Arcs
+        for (String st : sommets) {
+            if (!st.equals(noeud))
+                sommets.add(noeud);
+        }
     }
 
     @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
-        arcs.add(new Arc(source, destination, valeur));
+        for (Arc arc : arcs) {
+            if (!(arc.getSrc().equals(source) && arc.getDest().equals(destination)))
+                arcs.add(new Arc(source, destination, valeur));
+        }
     }
 
     @Override
@@ -48,6 +55,10 @@ public class GrapheLArcs implements IGraphe {
         }
     }
 
+    /*public void oterSommet2(String noeud) {
+            sommets.remove(noeud);
+    }*/
+
     @Override
     public void oterArc(String source, String destination) {
         for (int i = 0; i < arcs.size(); i++) {
@@ -56,7 +67,7 @@ public class GrapheLArcs implements IGraphe {
         }
     }
 
-    @Override
+    /*@Override
     public List<String> getSommets() {
         //Un type d'ensemble qui n'accepte pas les doublons
         Set<String> sommet = new HashSet<>();
@@ -72,6 +83,11 @@ public class GrapheLArcs implements IGraphe {
         Collections.sort(sommetFinal);
 
         return sommetFinal;
+    }*/
+    @Override
+    public List<String> getSommets() {
+        return sommets;
+        //return new ArrayList<>(sommets);
     }
 
     @Override
@@ -79,7 +95,7 @@ public class GrapheLArcs implements IGraphe {
         List<String> arcSucc = new ArrayList<>();
         for (Arc arc : arcs) {
             if (arc.getDest().equals(sommet))
-                arcSucc.add(arc.getSrc());
+                arcSucc.add(arc.getDest());
         }
         return arcSucc;
     }
@@ -95,12 +111,8 @@ public class GrapheLArcs implements IGraphe {
 
     @Override
     public boolean contientSommet(String sommet) {
-        assert (sommet == null);
-        for (Arc arc: arcs) {
-            if (arc.getSrc().equals(sommet) || arc.getDest().equals(sommet))
-                return true;
-        }
-        return false;
+        //Il va chercher dans la liste tout les sommets.
+        return sommets.contains(sommet);
     }
 
     @Override
@@ -111,4 +123,8 @@ public class GrapheLArcs implements IGraphe {
         }
         return false;
     }
+
+    /*public String toString() {
+
+    }*/
 }

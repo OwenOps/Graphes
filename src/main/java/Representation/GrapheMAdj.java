@@ -67,4 +67,8 @@ public class GrapheMAdj implements IGraphe {
     public boolean contientArc(String src, String dest) {
         return false;
     }
+
+    /*public String toString() {
+
+    }*/
 }
