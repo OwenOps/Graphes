@@ -1,5 +1,7 @@
 package Arc;
 
+import java.util.Objects;
+
 public class Arc {
     private String src, dest;
     private int valuation;
@@ -10,6 +12,15 @@ public class Arc {
         this.valuation = valuation;
     }
 
+    public Arc(String src, String dest) {
+        this.src = src;
+        this.dest = dest;
+    }
+
+    public Arc(String src) {
+        this.src = src;
+    }
+
     public String getDest() {
         return dest;
     }
@@ -17,10 +28,6 @@ public class Arc {
     public String getSrc() {
         return src;
     }
-
-    /*private int isNull(String src, String dest, int valuation) {
-
-    }*/
 
     public int getValuation() {
         return valuation;
@@ -34,6 +41,10 @@ public class Arc {
         dest = null;
     }
 
+    public boolean equals(Arc c) {
+        return src == c.src && dest == c.dest;
+    }
+
     public void removeArc() {
         src = null;
         dest = null;
@@ -41,6 +52,8 @@ public class Arc {
     }
 
     public String toString() {
+        if (dest == null)
+            return src + ":";
         return src + "-" + dest + "(" + valuation + ")";
     }
 }
