@@ -12,16 +12,8 @@ public class GrapheLArcs implements IGraphe {
     }
     public GrapheLArcs(String graphe) {
         this();
-        //Cette fonction ajoute deja les sommets et arcs.
+        //Cette fonction appelle ajout Sommet et arc.
         peupler(graphe);
-    }
-
-    public List<Arc> getArcs() {
-        return arcs;
-    }
-
-    private boolean isNull(Arc arc) {
-        return arc.getDest() == null && arc.getSrc() == null;
     }
 
 //    private Arc setArcFactice(Arc arc) {
@@ -38,12 +30,24 @@ public class GrapheLArcs implements IGraphe {
 
     @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
+        if (!(arcs.contains(new Arc(source,destination))))
+            arcs.add(new Arc(source,destination,valeur));
+
+        //Apres avoir mis les arcs, on enleve les sommets qui sont seuls.
         for (int i = 0; i < arcs.size(); i++) {
-            if (!(arcs.get(i).equals(new Arc(source, destination)))) {
-                arcs.add(new Arc(source, destination, valeur));
-                return;
+            if (arcs.get(i).getDest() == null && trouveSucc(arcs.get(i).getSrc())) {
+                arcs.remove(i);
             }
         }
+    }
+
+    //Fonction pour enlever les sommet que l'on a ajoute avant.
+    public boolean trouveSucc(String source) {
+        for (Arc arc : arcs) {
+            if (arc.getSrc().equals(source) && arc.getDest() != null)
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -51,8 +55,15 @@ public class GrapheLArcs implements IGraphe {
         if (!contientSommet(noeud))
             return;
 
-        for (int i = 0; i < arcs.size(); i++) {
-            
+        for (Arc arc : arcs) {
+            if (!(arc.getDest() == null || arc.getSrc() == null)) {
+                if (arc.getSrc().equals(noeud)) {
+                    arc.removeSrc();
+                }
+
+                if (arc.getDest().equals(noeud))
+                    arc.removeDst();
+            }
         }
     }
 
@@ -73,7 +84,6 @@ public class GrapheLArcs implements IGraphe {
 
         for (Arc arc : arcs) {
             sommet.add(arc.getSrc());
-            //J n'a pas de destination, donc cree un probleme.
             sommet.add(arc.getDest());
         }
         if (sommet.contains(null))
@@ -115,10 +125,14 @@ public class GrapheLArcs implements IGraphe {
 
     @Override
     public boolean contientArc(String src, String dest) {
+        if (dest == null)
+            return false;
+
         Arc a = new Arc(src,dest);
         for (Arc arc : arcs) {
-            if (arc.equals(a))
-                return true;
+            if (!(arc.getDest() == null))
+                if (arc.getSrc().equals(src) && arc.getDest().equals(dest))
+                    return true;
         }
         return false;
     }

@@ -42,18 +42,19 @@ public class Arc {
     }
 
     public boolean equals(Arc c) {
-        return src == c.src && dest == c.dest;
-    }
+        // Vérifier si l'un des deux objets est null pour eviter lever exception en utilisant un equals
+        if (c.dest == null || dest == null) {
+            return false;
+        }
 
-    public void removeArc() {
-        src = null;
-        dest = null;
-        valuation = 0;
+        return src.equals(c.src) && dest.equals(c.dest);
     }
 
     public String toString() {
         if (dest == null)
             return src + ":";
+        if (src == null)
+            return  ":" + dest;
         return src + "-" + dest + "(" + valuation + ")";
     }
 }

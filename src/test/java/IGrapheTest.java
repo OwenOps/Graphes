@@ -26,6 +26,7 @@ class IGrapheTest {
 	void exo3_1Maths() {
 		GrapheLArcs gla = new GrapheLArcs(g31);
 		tester3_1(gla);
+		testerFonctionOterArc(gla);
 	}
 	
 	void tester3_1(IGraphe g) {
@@ -38,6 +39,23 @@ class IGrapheTest {
 		assertEquals(7,g.getValuation("E", "H"));
 		assertEquals(List.of("B","C", "E"), g.getSucc("D"));
 		assertEquals(g31, g.toString());
+	}
+
+	void testerFonctionOterSommer(IGraphe g) {
+		List<String> som1 = List.of("A","B","C","D","E","F","G","H","I","J");
+		List<String> som2 = List.of("A","D","E","F","G","H","I","J");
+		List<String> som3 = List.of("J");
+		List<String> som4 = List.of("F");
+		List<String> som5 = List.of();
+		g.oterSommet("B");
+		g.oterSommet("C");
+		assertEquals(som2, g.getSommets());
+	}
+
+	void testerFonctionOterArc(IGraphe g) {
+		List<String> som1 = List.of("A","B","C","D","E","F","G","H","I","J");
+		g.oterArc("A","B");
+
 	}
 
 }

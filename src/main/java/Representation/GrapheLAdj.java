@@ -30,12 +30,10 @@ public class GrapheLAdj implements IGraphe {
             if (entry.getKey().equals(source)) {
                 //On stocke les liste d'arcs dans une autre liste pour y acceder plus facilement
                 List<Arc> arcs = entry.getValue();
-                for (Arc arc : arcs){
-                    if (arc.getSrc().equals(source) && arc.getDest().equals(destination))
-                        return;
-                    else
-                        ajoutArc.add(new Arc(source,destination,valeur));
-                }
+                if (arcs.contains(new Arc(source,destination)))
+                    return;
+                else
+                    arcs.add(new Arc(source,destination,valeur));
             }
         }
         //On Ajoute l'arc pour le sommet source (a voir)
