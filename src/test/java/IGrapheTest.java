@@ -39,6 +39,10 @@ class IGrapheTest {
 		assertEquals(7,g.getValuation("E", "H"));
 		assertEquals(List.of("B","C", "E"), g.getSucc("D"));
 		assertEquals(g31, g.toString());
+
+		//Illegal Argument
+//		g.ajouterArc("A","C",2);
+		System.out.println(g.toString());
 	}
 
 	void testerFonctionOterSommet(IGraphe g) {
@@ -77,12 +81,14 @@ class IGrapheTest {
 		g.oterArc("E","G");
 		g.oterArc("E","H");
 		g.oterArc("G","B");
-		g.oterArc("G","H");
 		g.oterArc("H","F");
 		g.oterArc("H","G");
 		g.oterArc("I","H");
 		System.out.println(g.getSommets());
 		System.out.println(g.toString());
+
+		//Tester illegal Argument
+//		g.oterArc("G", "H");
 
 		assertEquals(som2,g.getSucc("A"));
 		assertEquals(som2,g.getSucc("J"));

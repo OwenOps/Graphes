@@ -23,10 +23,18 @@ public class GrapheLArcs implements IGraphe {
 
     @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
-        if (!(arcs.contains(new Arc(source,destination))))
-            arcs.add(new Arc(source,destination,valeur));
+        if (contientArc(source,destination)) {
+            throw new IllegalArgumentException();
+        };
+        ajouterSommet(source);
+        ajouterSommet(destination);
+        arcs.add(new Arc(source,destination,valeur));
 
         //Apres avoir mis les arcs, on enleve les sommets qui sont seuls.
+        enleveSommetEnTrop();
+    }
+
+    private void enleveSommetEnTrop() {
         for (int i = 0; i < arcs.size(); i++) {
             if (arcs.get(i).getDest() == null && trouveSucc(arcs.get(i).getSrc())) {
                 arcs.remove(i);
@@ -75,8 +83,8 @@ public class GrapheLArcs implements IGraphe {
     }
     @Override
     public void oterArc(String source, String destination) {
-        if (!(contientSommet(source) && contientSommet(destination)))
-            return;
+        if (!contientArc(source,destination))
+            throw new IllegalArgumentException();
 
         for (int i = 0; i < arcs.size(); i++) {
             if (isNotNull(arcs.get(i).getSrc()) && isNotNull(arcs.get(i).getDest())) {

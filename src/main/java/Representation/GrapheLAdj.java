@@ -29,9 +29,13 @@ public class GrapheLAdj implements IGraphe {
             if (entry.getKey().equals(source)) {
                 //On stocke les liste d'arcs dans une autre liste pour y acceder plus facilement
                 List<Arc> arcs = entry.getValue();
-                if (arcs.contains(new Arc(source,destination)))
-                    return;
-                else {
+                if (contientArc(source,destination)) {
+                    throw new IllegalArgumentException();
+                }
+                else
+                {
+                    ajouterSommet(source);
+                    ajouterSommet(destination);
                     arcs.add(new Arc(source, destination, valeur));
                 }
             }
@@ -103,8 +107,8 @@ public class GrapheLAdj implements IGraphe {
 
     @Override
     public void oterArc(String source, String destination) {
-        if (!(ladj.containsKey(source) || ladj.containsKey(destination)))
-            return;
+        if (contientArc(source,destination))
+            throw new IllegalArgumentException();
 
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
             List<Arc> newLi = entry.getValue();

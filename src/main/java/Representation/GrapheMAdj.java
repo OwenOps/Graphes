@@ -15,32 +15,41 @@ public class GrapheMAdj implements IGraphe {
     }
 
     private void initMatrice(int nbrSommet) {
-        assert (nbrSommet == 0);
-        for (int i = 0; i < nbrSommet; i++) {
-            for (int j = 0; j < nbrSommet; j++) {
-                matrice[i][j] = 0;
+        for (int ligne = 0; ligne < nbrSommet; ligne++) {
+            for (int colonne = 0; colonne < nbrSommet; colonne++) {
+                matrice[ligne][colonne] = 0;
             }
         }
     }
 
     @Override
     public void ajouterSommet(String noeud) {
-        indice.put(noeud, 0);
+        if (!indice.containsKey(noeud))
+            indice.put(noeud, 0);
     }
 
     @Override
-    public void ajouterArc(String source, String destination, Integer valeur) {
+    public void ajouterArc(String source, String destination, Integer valeur) throws IllegalArgumentException {
+        /*if(!= 0) {
+            throw new IllegalArgumentException("L'arc est déjà présent.");
+        }*/
 
     }
+
 
     @Override
     public void oterSommet(String noeud) {
+        for (Map.Entry<String, Integer> entry : indice.entrySet()) {
 
+        }
+        indice.remove(noeud);
     }
 
     @Override
     public void oterArc(String source, String destination) {
-
+        /*for (Map.Entry<String, Integer> entry : indice.entrySet()) {
+            if (entry.g)
+        }*/
     }
 
     @Override
@@ -69,6 +78,10 @@ public class GrapheMAdj implements IGraphe {
     }
 
     /*public String toString() {
-
+        for (int ligne = 0; ligne < matrice.length; ligne++) {
+            for (int colonne = 0; colonne < matrice.length; colonne++) {
+                ;
+            }
+        }
     }*/
 }
