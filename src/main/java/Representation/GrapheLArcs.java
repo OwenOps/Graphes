@@ -15,13 +15,6 @@ public class GrapheLArcs implements IGraphe {
         //Cette fonction appelle ajout Sommet et arc.
         peupler(graphe);
     }
-
-//    private Arc setArcFactice(Arc arc) {
-//        arc.setValuation(0);
-//        arc.setDest("");
-//        return arc;
-//    }
-
     @Override
     public void ajouterSommet(String noeud) {
         if (!contientSommet(noeud))
@@ -41,10 +34,10 @@ public class GrapheLArcs implements IGraphe {
         }
     }
 
-    //Fonction pour enlever les sommet que l'on a ajoute avant.
+    //Fonction pour trouver au minimum 1 successeur
     public boolean trouveSucc(String source) {
         for (Arc arc : arcs) {
-            if (arc.getSrc().equals(source) && arc.getDest() != null)
+            if (arc.getSrc().equals(source) && isNotNull(arc.getDest()))
                 return true;
         }
         return false;
@@ -55,24 +48,44 @@ public class GrapheLArcs implements IGraphe {
         if (!contientSommet(noeud))
             return;
 
-        for (Arc arc : arcs) {
-            if (!(arc.getDest() == null || arc.getSrc() == null)) {
-                if (arc.getSrc().equals(noeud)) {
-                    arc.removeSrc();
+        int i = arcs.size() - 1;
+        while (i >= 0) {
+            if (isNotNull(arcs.get(i).getSrc())) {
+                if (arcs.get(i).getSrc().equals(noeud)) {
+                    arcs.remove(i);
+                    i--;
+                    continue;
                 }
-
-                if (arc.getDest().equals(noeud))
-                    arc.removeDst();
             }
+
+            if (isNotNull(arcs.get(i).getDest())) {
+                if (arcs.get(i).getDest().equals(noeud)) {
+                    arcs.remove(i);
+                    i--;
+                    continue;
+                }
+            }
+            i--;
         }
     }
 
+    //Quand on utilise equals et que ca renvoie un null, le programme plante.
+    public boolean isNotNull(String noeud) {
+        return noeud != null;
+    }
     @Override
     public void oterArc(String source, String destination) {
+        if (!(contientSommet(source) && contientSommet(destination)))
+            return;
+
         for (int i = 0; i < arcs.size(); i++) {
-            if (arcs.get(i).getSrc().equals(source) && arcs.get(i).getDest().equals(destination)) {
-                arcs.remove(i);
-                return;
+            if (isNotNull(arcs.get(i).getSrc()) && isNotNull(arcs.get(i).getDest())) {
+                if (arcs.get(i).equals(new Arc(source,destination))) {
+                    if (arcs.get(i).getSrc().equals(source))
+                        arcs.get(i).removeDst();
+                    else
+                        arcs.get(i).removeSrc();
+                }
             }
         }
     }
@@ -95,7 +108,7 @@ public class GrapheLArcs implements IGraphe {
     public List<String> getSucc(String sommet) {
         List<String> arcSucc = new ArrayList<>();
         for (Arc arc : arcs) {
-            if (arc.getSrc().equals(sommet)) {
+            if (arc.getSrc().equals(sommet) && arc.getDest() != null) {
                 arcSucc.add(arc.getDest());
             }
         }
@@ -113,12 +126,19 @@ public class GrapheLArcs implements IGraphe {
 
     @Override
     public boolean contientSommet(String sommet) {
+        if (sommet == null)
+            return false;
         //Il va chercher dans la liste tout les sommets.
         for (Arc arc : arcs) {
-            if (arc.getDest() == sommet)
-                return true;
-            if (arc.getSrc().equals(sommet))
-                return true;
+            if (isNotNull(arc.getDest())) {
+                if (arc.getDest().equals(sommet))
+                    return true;
+            }
+
+            if (isNotNull(arc.getSrc())) {
+                if (arc.getSrc().equals(sommet))
+                    return true;
+            }
         }
         return false;
     }
@@ -130,7 +150,7 @@ public class GrapheLArcs implements IGraphe {
 
         Arc a = new Arc(src,dest);
         for (Arc arc : arcs) {
-            if (!(arc.getDest() == null))
+            if (isNotNull(arc.getDest()))
                 if (arc.getSrc().equals(src) && arc.getDest().equals(dest))
                     return true;
         }

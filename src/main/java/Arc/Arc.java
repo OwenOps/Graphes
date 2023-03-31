@@ -35,10 +35,12 @@ public class Arc {
 
     public void removeSrc() {
         src = null;
+        valuation = -1;
     }
 
     public void removeDst() {
         dest = null;
+        valuation = -1;
     }
 
     public boolean equals(Arc c) {

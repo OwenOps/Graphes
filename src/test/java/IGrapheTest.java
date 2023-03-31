@@ -41,21 +41,56 @@ class IGrapheTest {
 		assertEquals(g31, g.toString());
 	}
 
-	void testerFonctionOterSommer(IGraphe g) {
+	void testerFonctionOterSommet(IGraphe g) {
 		List<String> som1 = List.of("A","B","C","D","E","F","G","H","I","J");
 		List<String> som2 = List.of("A","D","E","F","G","H","I","J");
 		List<String> som3 = List.of("J");
 		List<String> som4 = List.of("F");
 		List<String> som5 = List.of();
+		g.oterSommet("A");
 		g.oterSommet("B");
 		g.oterSommet("C");
-		assertEquals(som2, g.getSommets());
+		g.oterSommet("D");
+		g.oterSommet("E");
+		g.oterSommet("G");
+		g.oterSommet("C");
+		g.oterSommet("H");
+		g.oterSommet("I");
+		g.oterSommet("J");
+		g.oterSommet("Z");
+		System.out.println(g.getSommets());
+		assertEquals(som4, g.getSommets());
 	}
 
 	void testerFonctionOterArc(IGraphe g) {
 		List<String> som1 = List.of("A","B","C","D","E","F","G","H","I","J");
-		g.oterArc("A","B");
+		List<String> som2 = List.of();
+		List<String> som3 = List.of("F");
+		g.oterArc("A","C");
+		g.oterArc("A","D");
+		g.oterArc("B","G");
+		g.oterArc("C","H");
+		g.oterArc("D","B");
+		g.oterArc("D","C");
+		g.oterArc("D","E");
+		g.oterArc("E","C");
+		g.oterArc("E","G");
+		g.oterArc("E","H");
+		g.oterArc("G","B");
+		g.oterArc("G","H");
+		g.oterArc("H","F");
+		g.oterArc("H","G");
+		g.oterArc("I","H");
+		System.out.println(g.getSommets());
+		System.out.println(g.toString());
 
+		assertEquals(som2,g.getSucc("A"));
+		assertEquals(som2,g.getSucc("J"));
+		assertEquals(som3,g.getSucc("G"));
+		assertEquals(som2,g.getSucc("F"));
+		assertEquals(-1,g.getValuation("A","C"));
+		assertEquals(-1,g.getValuation("H","I"));
+		assertEquals(1,g.getValuation("G","F"));
 	}
 
 }
