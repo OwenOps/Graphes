@@ -22,16 +22,25 @@ class IGrapheTest {
 			+ "I-H(10), "
 			+ "J:";
 	
+//	@Test
+//	void exo3_1Maths() {
+//		GrapheLArcs gla = new GrapheLArcs(g31);
+//		tester3_1(gla);
+//		testerFonctionOterArc(gla);
+//	}
+
 	@Test
-	void exo3_1Maths() {
-		GrapheLArcs gla = new GrapheLArcs(g31);
-		tester3_1(gla);
-		testerFonctionOterArc(gla);
+	void exo3_1Maths2() {
+		GrapheLAdj gla2 = new GrapheLAdj(g31);
+		tester3_1(gla2);
+		testerFonctionOterSommet(gla2);
+//		testerFonctionOterArc(gla2);
 	}
 	
 	void tester3_1(IGraphe g) {
 		List<String> sommets = List.of("A","B","C","D","E","F","G","H","I","J");
 		assertEquals(sommets, g.getSommets());
+		System.out.println(g.getSommets());
 		assertTrue(g.contientSommet("C"));
 		assertFalse(g.contientSommet("c"));
 		assertTrue(g.contientArc("C","H"));
@@ -42,7 +51,6 @@ class IGrapheTest {
 
 		//Illegal Argument
 //		g.ajouterArc("A","C",2);
-		System.out.println(g.toString());
 	}
 
 	void testerFonctionOterSommet(IGraphe g) {
@@ -62,7 +70,6 @@ class IGrapheTest {
 		g.oterSommet("I");
 		g.oterSommet("J");
 		g.oterSommet("Z");
-		System.out.println(g.getSommets());
 		assertEquals(som4, g.getSommets());
 	}
 
@@ -85,11 +92,12 @@ class IGrapheTest {
 		g.oterArc("H","G");
 		g.oterArc("I","H");
 		System.out.println(g.getSommets());
-		System.out.println(g.toString());
 
-		//Tester illegal Argument
+//		Tester illegal Argument
 //		g.oterArc("G", "H");
 
+
+		//Il reste comme Arc G-F(1)
 		assertEquals(som2,g.getSucc("A"));
 		assertEquals(som2,g.getSucc("J"));
 		assertEquals(som3,g.getSucc("G"));

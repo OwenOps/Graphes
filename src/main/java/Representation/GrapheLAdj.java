@@ -12,6 +12,11 @@ public class GrapheLAdj implements IGraphe {
         ladj = new HashMap<>();
     }
 
+    public GrapheLAdj(String graphe) {
+        this();
+        peupler(graphe);
+    }
+
     @Override
     public void ajouterSommet(String noeud) {
         if (!(ladj.containsKey(noeud)))
@@ -20,10 +25,11 @@ public class GrapheLAdj implements IGraphe {
 
     @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
-        if (!(ladj.containsKey(source)))
-            return;
+        if (!(ladj.containsKey(source) || ladj.containsKey(destination))) {
+            ajouterSommet(source);
+            ajouterSommet(destination);
+        }
 
-        List<Arc> ajoutArc = new ArrayList<>();
         //Verification si arc est deja present
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
             if (entry.getKey().equals(source)) {
@@ -38,10 +44,9 @@ public class GrapheLAdj implements IGraphe {
                     ajouterSommet(destination);
                     arcs.add(new Arc(source, destination, valeur));
                 }
+                ladj.put(source, arcs);
             }
         }
-        //On ajoute la nouvelle liste d'arc pour le sommet
-        ladj.put(source, ajoutArc);
     }
 
     @Override
@@ -102,12 +107,12 @@ public class GrapheLAdj implements IGraphe {
 
     //Quand on utilise equals et que ca renvoie un null, le programme plante.
     public boolean isNotNull(String noeud) {
-        return noeud == null;
+        return noeud != null;
     }
 
     @Override
     public void oterArc(String source, String destination) {
-        if (contientArc(source,destination))
+        if (!contientArc(source,destination))
             throw new IllegalArgumentException();
 
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
@@ -115,10 +120,12 @@ public class GrapheLAdj implements IGraphe {
 
             for (int i = 0; i < newLi.size(); i++) {
                 if (isNotNull(newLi.get(i).getSrc()) && isNotNull(newLi.get(i).getDest())) {
-                    if (newLi.get(i).getSrc().equals(source))
-                        newLi.get(i).removeSrc();
-                    else
-                        newLi.get(i).removeDst();
+                    if (newLi.get(i).equals(new Arc(source,destination))) {
+                        if (newLi.get(i).getSrc().equals(source))
+                            newLi.get(i).removeDst();
+                        else
+                            newLi.get(i).removeSrc();
+                    }
                 }
             }
             //Mise à jour de la liste qui correspond au sommet
@@ -163,7 +170,7 @@ public class GrapheLAdj implements IGraphe {
 
         //On cree la liste que l'on veut retourner
         List<String> succ = new ArrayList<>();
-        if (!listeArc.isEmpty()) {
+        if (!(listeArc == null || listeArc.isEmpty())) {
             for (Arc arc : listeArc) {
                 if (isNotNull(arc.getDest()))
                     succ.add(arc.getDest());
@@ -175,7 +182,7 @@ public class GrapheLAdj implements IGraphe {
     @Override
     public int getValuation(String src, String dest) {
         List<Arc> listeArc = ladj.get(src);
-        int valuation = 0;
+        int valuation = -1;
 
         //On veut la valuation pour laquelle l'arc partant du sommet vaut celle de la destination
         for (Arc arc : listeArc) {
@@ -210,15 +217,19 @@ public class GrapheLAdj implements IGraphe {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for (Map.Entry<String, List<Arc>> entry: ladj.entrySet()) {
-            sb.append(entry.getKey());
-            sb.append(", ");
-
-            for (int i = 0; i < entry.getValue().size(); i++) {
-                sb.append(entry.getValue().get(i).getDest() + ",");
+        for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
+            if (entry.getValue().isEmpty()) {
+                sb.append(entry.getKey() + ":");
+                sb.append(", ");
             }
-            sb.append(" -- ");
+
+            for (Arc arc : entry.getValue()) {
+                sb.append(arc.toString());
+                sb.append(", ");
+            }
         }
+        //Enlever la derniere virgule
+        sb.setLength(sb.length() - 2);
         return sb.toString();
     }
 }
