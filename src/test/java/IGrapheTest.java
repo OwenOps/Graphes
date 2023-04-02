@@ -1,17 +1,19 @@
-import Interface.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import Representation.GrapheLAdj;
-import Representation.GrapheLArcs;
 import org.junit.jupiter.api.Test;
+import Interface.*;
+import Representation.*;
+import Arc.Arc;
 
 class IGrapheTest {
 	// graphe de l'exercice 3.1 du poly de maths
 	// avec en plus un noeud isole : J
 	private String g31 = 
-			  "A-C(2), A-D(1), "
+			"A-C(2), A-D(1), "
 			+ "B-G(3), "
 			+ "C-H(2), "
 			+ "D-B(3), D-C(5), D-E(3), "
@@ -22,36 +24,75 @@ class IGrapheTest {
 			+ "I-H(10), "
 			+ "J:";
 	
-//	@Test
-//	void exo3_1Maths() {
-//		GrapheLArcs gla = new GrapheLArcs(g31);
-//		tester3_1(gla);
-//		testerFonctionOterArc(gla);
-//	}
-
+	private String g31a = ""       // melangee
+			+ "D-C(5), D-E(3), D-B(3), "
+			+ "E-G(3), E-C(1), E-H(7), "
+			+ "I-H(10), "
+			+ "J:,"
+			+ "G-B(2), G-F(1), "
+			+ "F:, "
+			+ "H-G(2), H-F(4), "
+			+ "A-C(2), A-D(1), "
+			+ "B-G(3), "
+			+ "C-H(2) "
+;
+	
 	@Test
-	void exo3_1Maths2() {
-		GrapheLAdj gla2 = new GrapheLAdj(g31);
-		tester3_1(gla2);
-		testerFonctionOterSommet(gla2);
-//		testerFonctionOterArc(gla2);
+	void exo3_1Maths() {
+		GrapheLAdj gla = new GrapheLAdj(g31a); // on cree le graphe sans ordre particulier
+		tester3_1(gla);
+		testerFonctionOterArc(gla);
+		testerFonctionOterSommet(gla);
+		testerAutre(gla);
+
+		GrapheLArcs glarcs = new GrapheLArcs(g31a);
+		tester3_1(glarcs);
+		testerFonctionOterArc(glarcs);
+		testerFonctionOterSommet(glarcs);
+		testerAutre(glarcs);
 	}
 	
 	void tester3_1(IGraphe g) {
-		List<String> sommets = List.of("A","B","C","D","E","F","G","H","I","J");
-		assertEquals(sommets, g.getSommets());
-		System.out.println(g.getSommets());
+		List<String> sommets_exp = List.of("A","B","C","D","E","F","G","H","I","J");
+		List<String> sommets = new ArrayList<String>(g.getSommets()); // pas forcement triee
+		Collections.sort(sommets);
+		assertEquals(sommets_exp, sommets);
 		assertTrue(g.contientSommet("C"));
 		assertFalse(g.contientSommet("c"));
 		assertTrue(g.contientArc("C","H"));
 		assertFalse(g.contientArc("H","C"));
 		assertEquals(7,g.getValuation("E", "H"));
-		assertEquals(List.of("B","C", "E"), g.getSucc("D"));
+		List<String> successeurs = new ArrayList<String>(g.getSucc("D")); // pas forcement triee
+		Collections.sort(successeurs);
+		assertEquals(List.of("B","C", "E"), successeurs);
 		assertEquals(g31, g.toString());
-
-		//Illegal Argument
-//		g.ajouterArc("A","C",2);
+		
+		g.ajouterSommet("A"); // ne fait rien car A est deja present
+		assertEquals(g31, g.toString());
+		assertThrows(IllegalArgumentException.class,  
+				() -> g.ajouterArc("G", "B", 1));		// deja present
+		g.oterSommet("X"); // ne fait rien si le sommet n'est pas present
+		assertEquals(g31, g.toString());
+		assertThrows(IllegalArgumentException.class,
+				() -> g.oterArc("X", "Y"));  // n'existe pas
+		
+		assertThrows(IllegalArgumentException.class,
+				() -> g.ajouterArc("A", "B", -1)); // valuation negative
 	}
+	
+	/*@Test
+	void importer() throws NumberFormatException, FileNotFoundException {
+		System.out.println("SAE graphes");
+		IGraphe g = new GrapheLAdj();
+		Arc a = GraphImporter.importer("graphes/ac/g-10-1.txt", g);
+		assertEquals(g.toString(), "1-3(5), "
+				+ "10-3(3), 2-1(5), 2-3(5), 2-5(4), "
+				+ "3-4(4), 3-5(4), 4-10(1), 4-2(1), 4-7(3), "
+				+ "5-9(4), 6-2(3), 6-3(4), 7-3(2),"
+				+ " 8-2(4), 8-6(1), 9-2(4)");
+		assertEquals("5", a.getSource());
+		assertEquals("7", a.getDestination());
+	}*/
 
 	void testerFonctionOterSommet(IGraphe g) {
 		List<String> som1 = List.of("A","B","C","D","E","F","G","H","I","J");
@@ -91,7 +132,7 @@ class IGrapheTest {
 		g.oterArc("H","F");
 		g.oterArc("H","G");
 		g.oterArc("I","H");
-		System.out.println(g.getSommets());
+//		System.out.println(g.getSommets());
 
 //		Tester illegal Argument
 //		g.oterArc("G", "H");
@@ -105,6 +146,40 @@ class IGrapheTest {
 		assertEquals(-1,g.getValuation("A","C"));
 		assertEquals(-1,g.getValuation("H","I"));
 		assertEquals(1,g.getValuation("G","F"));
+	}
+
+	void testerAutre(IGraphe g) {
+		//Test si il y a probleme comme : des sorties, des nulls etc...
+		List<String> sommets_exp = List.of("A","B","C","D","E","F","G","H","I","J");
+		g.ajouterArc("Z","Z",4);
+		g.ajouterArc("Z","V", 10);
+		g.ajouterSommet("z");
+		g.oterSommet("W");
+		g.getSucc("A");
+		g.contientArc("A","");
+		g.oterSommet("X");
+		g.oterSommet("Z");
+		g.getSucc("$");
+		g.getValuation("$", "A");
+		g.getValuation("Z", "V");
+		g.contientSommet("");
+		g.contientSommet("$");
+		assertThrows(IllegalArgumentException.class,
+				() -> g.oterArc("$", "A"));  // n'existe pas
+		assertThrows(IllegalArgumentException.class,
+				() -> g.oterArc("A", "B"));
+		g.ajouterArc("P", "Z", 6);
+
+		List<String> som = List.of("Z");
+		assertEquals(som,g.getSucc("P"));
+		g.oterArc("P", "Z");
+		// Liste vide
+		g.oterSommet("F");
+		g.oterSommet("V");
+		g.oterSommet("Z");
+		g.oterSommet("z");
+		//-------------------------
+
 	}
 
 }

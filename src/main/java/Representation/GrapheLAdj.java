@@ -19,29 +19,27 @@ public class GrapheLAdj implements IGraphe {
 
     @Override
     public void ajouterSommet(String noeud) {
-        if (!(ladj.containsKey(noeud)))
+        if (!(ladj.containsKey(noeud))) {
             ladj.put(noeud, new ArrayList<>());
+        }
     }
 
     @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
-        if (!(ladj.containsKey(source) || ladj.containsKey(destination))) {
-            ajouterSommet(source);
-            ajouterSommet(destination);
-        }
+        if (valeur < 0)
+            throw new IllegalArgumentException();
+
+        ajouterSommet(source);
+        ajouterSommet(destination);
 
         //Verification si arc est deja present
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
             if (entry.getKey().equals(source)) {
                 //On stocke les liste d'arcs dans une autre liste pour y acceder plus facilement
                 List<Arc> arcs = entry.getValue();
-                if (contientArc(source,destination)) {
+                if (contientArc(source, destination)) {
                     throw new IllegalArgumentException();
-                }
-                else
-                {
-                    ajouterSommet(source);
-                    ajouterSommet(destination);
+                } else {
                     arcs.add(new Arc(source, destination, valeur));
                 }
                 ladj.put(source, arcs);
@@ -58,27 +56,23 @@ public class GrapheLAdj implements IGraphe {
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
             List<Arc> newLi = entry.getValue();
 
-            //Quand on surpprime un arc, il faut mettre a jour pour ne pas depasser la limite
+            //Quand on supprime un arc, il faut mettre à jour pour ne pas depasser la limite
             int i = newLi.size() - 1;
             while (i >= 0) {
-                if (isNotNull(newLi.get(i).getSrc())) {
-                    if (newLi.get(i).getSrc().equals(noeud)) {
-                        newLi.remove(i);
-                        i--;
-                        continue;
-                    }
+                if (newLi.get(i).getSource().equals(noeud)) {
+                    newLi.remove(i);
+                    i--;
+                    continue;
                 }
 
-                if (isNotNull(newLi.get(i).getDest())) {
-                    if (newLi.get(i).getDest().equals(noeud)) {
-                        newLi.remove(i);
-                        i--;
-                        continue;
-                    }
+                if (newLi.get(i).getDestination().equals(noeud)) {
+                    newLi.remove(i);
+                    i--;
+                    continue;
                 }
                 i--;
             }
-            //Mise a jour de la liste qui correspond au sommet
+            //Mise à jour de la liste qui correspond au sommet
             ladj.put(entry.getKey(), newLi);
         }
     }
@@ -95,36 +89,28 @@ public class GrapheLAdj implements IGraphe {
             Iterator<Arc> iterator = entry.getValue().iterator();
             while (iterator.hasNext()) {
                 Arc arc = iterator.next();
-                if (arc.getSrc().equals(noeud) || arc.getDest().equals(noeud)) {
+                if (arc.getSource()().equals(noeud) || arc.getDestination()().equals(noeud)) {
                     iterator.remove();
                 }
             }
         }
     }*/
 
-
-
-
-    //Quand on utilise equals et que ca renvoie un null, le programme plante.
-    public boolean isNotNull(String noeud) {
-        return noeud != null;
-    }
-
     @Override
     public void oterArc(String source, String destination) {
-        if (!contientArc(source,destination))
+        if (!contientArc(source, destination))
             throw new IllegalArgumentException();
 
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
             List<Arc> newLi = entry.getValue();
 
-            for (int i = 0; i < newLi.size(); i++) {
-                if (isNotNull(newLi.get(i).getSrc()) && isNotNull(newLi.get(i).getDest())) {
-                    if (newLi.get(i).equals(new Arc(source,destination))) {
-                        if (newLi.get(i).getSrc().equals(source))
-                            newLi.get(i).removeDst();
+            if (!newLi.isEmpty()) {
+                for (int i = 0; i < newLi.size(); i++) {
+                    if (newLi.get(i).equals(new Arc(source, destination))) {
+                        if (newLi.get(i).getSource().equals(source))
+                            newLi.get(i).removeDestination();
                         else
-                            newLi.get(i).removeSrc();
+                            newLi.get(i).removeSource();
                     }
                 }
             }
@@ -144,8 +130,8 @@ public class GrapheLAdj implements IGraphe {
 
             while (iterator.hasNext()) {
                 Arc arc = iterator.next();
-                if (isNotNull(arc.getSrc()) && isNotNull(arc.getDest())) {
-                    if (arc.getSrc().equals(source))
+                if (isNotNull(arc.getSource()()) && isNotNull(arc.getDestination()())) {
+                    if (arc.getSource()().equals(source))
                         arc.removeDst();
                     else
                         arc.removeSrc();
@@ -172,8 +158,8 @@ public class GrapheLAdj implements IGraphe {
         List<String> succ = new ArrayList<>();
         if (!(listeArc == null || listeArc.isEmpty())) {
             for (Arc arc : listeArc) {
-                if (isNotNull(arc.getDest()))
-                    succ.add(arc.getDest());
+                if (!arc.getDestination().equals(""))
+                    succ.add(arc.getDestination());
             }
         }
         return succ;
@@ -185,9 +171,9 @@ public class GrapheLAdj implements IGraphe {
         int valuation = -1;
 
         //On veut la valuation pour laquelle l'arc partant du sommet vaut celle de la destination
-        for (Arc arc : listeArc) {
-            if (isNotNull(arc.getSrc()) && isNotNull(arc.getDest())) {
-                if (arc.getSrc().equals(src) && arc.getDest().equals(dest))
+        if (!(listeArc == null || listeArc.isEmpty())) {
+            for (Arc arc : listeArc) {
+                if (arc.getSource().equals(src) && arc.getDestination().equals(dest))
                     valuation = arc.getValuation();
             }
         }
@@ -205,29 +191,39 @@ public class GrapheLAdj implements IGraphe {
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
             //On stocke la liste pour ensuite la parcourir
             List<Arc> arcList = entry.getValue();
-            for (Arc arc: arcList) {
-                if (isNotNull(arc.getSrc()) && isNotNull(arc.getDest()))
-                    if (arc.getSrc().equals(src) && arc.getDest().equals(dest))
+            for (Arc arc : arcList) {
+                if (!arc.getSource().equals("") && !arc.getDestination().equals(""))
+                    if (arc.getSource().equals(src) && arc.getDestination().equals(dest))
                         return true;
             }
         }
         return false;
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
+    public List<String> triee() {
+        List<String> someTrie = new ArrayList<>();
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
-            if (entry.getValue().isEmpty()) {
-                sb.append(entry.getKey() + ":");
-                sb.append(", ");
+            List<Arc> arc = entry.getValue();
+            if (arc.isEmpty()) {
+                someTrie.add(entry.getKey() + ":");
             }
-
-            for (Arc arc : entry.getValue()) {
-                sb.append(arc.toString());
-                sb.append(", ");
+            for (Arc a : arc) {
+                someTrie.add(a.toString());
             }
         }
+        Collections.sort(someTrie);
+        return someTrie;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        List<String> sommetTrie = triee();
+
+        for (String st : sommetTrie) {
+            sb.append(st);
+            sb.append(", ");
+        }
+
         //Enlever la derniere virgule
         sb.setLength(sb.length() - 2);
         return sb.toString();

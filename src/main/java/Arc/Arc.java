@@ -17,15 +17,11 @@ public class Arc {
         this.dest = dest;
     }
 
-    public Arc(String src) {
-        this.src = src;
-    }
-
-    public String getDest() {
+    public String getDestination() {
         return dest;
     }
 
-    public String getSrc() {
+    public String getSource() {
         return src;
     }
 
@@ -33,19 +29,19 @@ public class Arc {
         return valuation;
     }
 
-    public void removeSrc() {
-        src = null;
+    public void removeSource() {
+        src = "";
         valuation = -1;
     }
 
-    public void removeDst() {
-        dest = null;
+    public void removeDestination() {
+        dest = "";
         valuation = -1;
     }
 
     public boolean equals(Arc c) {
         // Vérifier si l'un des deux objets est null pour eviter lever exception en utilisant un equals
-        if (c.dest == null || dest == null) {
+        if (c.dest.equals("") || dest.equals("")) {
             return false;
         }
 
@@ -53,9 +49,9 @@ public class Arc {
     }
 
     public String toString() {
-        if (dest == null)
+        if (dest.equals(""))
             return src + ":";
-        if (src == null)
+        if (src.equals(""))
             return  ":" + dest;
         return src + "-" + dest + "(" + valuation + ")";
     }

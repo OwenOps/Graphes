@@ -36,7 +36,7 @@ public class GraphImporter {
 				line = sc.nextLine();
 				a = parse(line);
 				if (sc.hasNextLine())
-					g.ajouterArc(a.getSrc(), a.getDest(), a.getValuation());
+					g.ajouterArc(a.getSource(), a.getDestination(), a.getValuation());
 			}
 			return a;
 		} catch (FileNotFoundException e) {
