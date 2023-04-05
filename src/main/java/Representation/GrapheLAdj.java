@@ -26,7 +26,7 @@ public class GrapheLAdj implements IGraphe {
 
     @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
-        if (valeur < 0)
+        if (valeur < 0 || contientArc(source,destination))
             throw new IllegalArgumentException();
 
         ajouterSommet(source);
@@ -37,11 +37,8 @@ public class GrapheLAdj implements IGraphe {
             if (entry.getKey().equals(source)) {
                 //On stocke les liste d'arcs dans une autre liste pour y acceder plus facilement
                 List<Arc> arcs = entry.getValue();
-                if (contientArc(source, destination)) {
-                    throw new IllegalArgumentException();
-                } else {
-                    arcs.add(new Arc(source, destination, valeur));
-                }
+                arcs.add(new Arc(source, destination, valeur));
+
                 ladj.put(source, arcs);
             }
         }

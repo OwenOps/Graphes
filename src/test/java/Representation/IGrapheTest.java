@@ -1,3 +1,5 @@
+package Representation;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
@@ -6,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import Interface.*;
-import Representation.*;
 import Arc.Arc;
 
 class IGrapheTest {
@@ -50,6 +51,18 @@ class IGrapheTest {
 		testerFonctionOterArc(glarcs);
 		testerFonctionOterSommet(glarcs);
 		testerAutre(glarcs);
+
+		/*GrapheHHAdj hha = new GrapheHHAdj(g31a);
+		tester3_1(hha);
+		testerFonctionOterArc(hha);
+		testerFonctionOterSommet(hha);
+		testerAutre(hha);*/
+
+		/*GrapheMAdj gma = new GrapheMAdj(g31a);
+		tester3_1(gma);
+		testerFonctionOterArc(gma);
+		testerFonctionOterSommet(gma);
+		testerAutre(gma);*/
 	}
 	
 	void tester3_1(IGraphe g) {
@@ -84,7 +97,7 @@ class IGrapheTest {
 	void importer() throws NumberFormatException, FileNotFoundException {
 		System.out.println("SAE graphes");
 		IGraphe g = new GrapheLAdj();
-		Arc a = GraphImporter.importer("graphes/ac/g-10-1.txt", g);
+		Arc a = GraphImporter.importer("src/test/java/Representation/grapheImporter/g-10-1.txt", g);
 		assertEquals(g.toString(), "1-3(5), "
 				+ "10-3(3), 2-1(5), 2-3(5), 2-5(4), "
 				+ "3-4(4), 3-5(4), 4-10(1), 4-2(1), 4-7(3), "
@@ -95,11 +108,7 @@ class IGrapheTest {
 	}*/
 
 	void testerFonctionOterSommet(IGraphe g) {
-		List<String> som1 = List.of("A","B","C","D","E","F","G","H","I","J");
-		List<String> som2 = List.of("A","D","E","F","G","H","I","J");
-		List<String> som3 = List.of("J");
 		List<String> som4 = List.of("F");
-		List<String> som5 = List.of();
 		g.oterSommet("A");
 		g.oterSommet("B");
 		g.oterSommet("C");
