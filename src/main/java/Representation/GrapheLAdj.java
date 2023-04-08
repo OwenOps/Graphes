@@ -1,5 +1,4 @@
 package Representation;
-
 import Interface.IGraphe;
 import Arc.Arc;
 
@@ -32,10 +31,9 @@ public class GrapheLAdj implements IGraphe {
         ajouterSommet(source);
         ajouterSommet(destination);
 
-        //Verification si arc est deja present
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
             if (entry.getKey().equals(source)) {
-                //On stocke les liste d'arcs dans une autre liste pour y acceder plus facilement
+
                 List<Arc> arcs = entry.getValue();
                 arcs.add(new Arc(source, destination, valeur));
 
@@ -53,7 +51,6 @@ public class GrapheLAdj implements IGraphe {
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
             List<Arc> newLi = entry.getValue();
 
-            //Quand on supprime un arc, il faut mettre à jour pour ne pas depasser la limite
             int i = newLi.size() - 1;
             while (i >= 0) {
                 if (newLi.get(i).getSource().equals(noeud)) {
@@ -69,29 +66,9 @@ public class GrapheLAdj implements IGraphe {
                 }
                 i--;
             }
-            //Mise à jour de la liste qui correspond au sommet
             ladj.put(entry.getKey(), newLi);
         }
     }
-
-    /*@Override
-    public void oterSommet(String noeud) {
-        if (!ladj.containsKey(noeud))
-            return;
-
-        // Supprime le sommet
-        ladj.remove(noeud);
-
-        for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
-            Iterator<Arc> iterator = entry.getValue().iterator();
-            while (iterator.hasNext()) {
-                Arc arc = iterator.next();
-                if (arc.getSource()().equals(noeud) || arc.getDestination()().equals(noeud)) {
-                    iterator.remove();
-                }
-            }
-        }
-    }*/
 
     @Override
     public void oterArc(String source, String destination) {
@@ -116,27 +93,6 @@ public class GrapheLAdj implements IGraphe {
         }
     }
 
-    /*@Override
-    public void oterArc(String source, String destination) {
-        if (!(ladj.containsKey(source) || ladj.containsKey(destination)))
-            return;
-
-        for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
-            //Comme en C++, un type qui va lire les valeurs de ce qu'on lui donne. Ici sera la liste.
-            Iterator<Arc> iterator = entry.getValue().iterator();
-
-            while (iterator.hasNext()) {
-                Arc arc = iterator.next();
-                if (isNotNull(arc.getSource()()) && isNotNull(arc.getDestination()())) {
-                    if (arc.getSource()().equals(source))
-                        arc.removeDst();
-                    else
-                        arc.removeSrc();
-                }
-            }
-        }
-    }*/
-
     @Override
     public List<String> getSommets() {
         List<String> arc = new ArrayList<>();
@@ -148,10 +104,8 @@ public class GrapheLAdj implements IGraphe {
 
     @Override
     public List<String> getSucc(String sommet) {
-        //On accede a la liste d'arc
         List<Arc> listeArc = ladj.get(sommet);
 
-        //On cree la liste que l'on veut retourner
         List<String> succ = new ArrayList<>();
         if (!(listeArc == null || listeArc.isEmpty())) {
             for (Arc arc : listeArc) {
@@ -167,7 +121,6 @@ public class GrapheLAdj implements IGraphe {
         List<Arc> listeArc = ladj.get(src);
         int valuation = -1;
 
-        //On veut la valuation pour laquelle l'arc partant du sommet vaut celle de la destination
         if (!(listeArc == null || listeArc.isEmpty())) {
             for (Arc arc : listeArc) {
                 if (arc.getSource().equals(src) && arc.getDestination().equals(dest))
@@ -220,8 +173,6 @@ public class GrapheLAdj implements IGraphe {
             sb.append(st);
             sb.append(", ");
         }
-
-        //Enlever la derniere virgule
         sb.setLength(sb.length() - 2);
         return sb.toString();
     }

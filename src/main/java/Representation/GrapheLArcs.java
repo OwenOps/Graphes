@@ -14,7 +14,6 @@ public class GrapheLArcs implements IGraphe {
 
     public GrapheLArcs(String graphe) {
         this();
-        //Cette fonction appelle ajout Sommet et arc.
         peupler(graphe);
     }
 
@@ -35,7 +34,6 @@ public class GrapheLArcs implements IGraphe {
         ajouterSommet(destination);
         arcs.add(new Arc(source, destination, valeur));
 
-        //Apres avoir mis les arcs, on enleve les sommets qui sont seuls.
         enleveSommetEnTrop();
     }
 
@@ -95,7 +93,6 @@ public class GrapheLArcs implements IGraphe {
 
     @Override
     public List<String> getSommets() {
-        //Un type d'ensemble qui n'accepte pas les doublons
         Set<String> sommet = new HashSet<>();
 
         for (Arc arc : arcs) {
@@ -133,7 +130,7 @@ public class GrapheLArcs implements IGraphe {
     public boolean contientSommet(String sommet) {
         if (sommet.equals(""))
             return false;
-        //Il va chercher dans la liste tout les sommets.
+
         for (Arc arc : arcs) {
             if (arc.getDestination().equals(sommet))
                 return true;
