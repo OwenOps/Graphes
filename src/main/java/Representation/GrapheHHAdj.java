@@ -56,10 +56,8 @@ public class GrapheHHAdj implements IGraphe {
         if (!contientArc(source, destination))
             throw new IllegalArgumentException();
 
-        //On a deja verifier si il y avait un arc existant avec contientArc, ducoup on peut directement surpprimer l'arc
-        //De plus en mettant comme clef dest "", il ne peut y avoir plusieurs clef pareil -> "", donc ca n'ajoute pas une nouvelle clef.
-        if (!(hhadj.get(source).containsKey("")))
-            hhadj.get(source).put("", -1);
+        if (!(hhadj.get(source).containsKey("")) && getSucc(source).isEmpty())
+            hhadj.get(source).put("", 0);
         hhadj.get(source).remove(destination);
     }
 
@@ -78,7 +76,6 @@ public class GrapheHHAdj implements IGraphe {
         List<String> succ = new ArrayList<>();
         for (Map.Entry<String, Map<String, Integer>> entry : hhadj.entrySet()) {
             if (entry.getKey().equals(sommet)) {
-                //On recupere la map associé au sommet pour recuperer la clef
                 Map<String, Integer> dest = entry.getValue();
                 for (Map.Entry<String, Integer> destEntry : dest.entrySet()) {
                     if (!destEntry.getKey().equals("")) {
@@ -111,7 +108,6 @@ public class GrapheHHAdj implements IGraphe {
         if (hhadj.containsKey(sommet))
             return true;
 
-        //Pour chaque sommet, on va verifier si dans ses desinations il y a le sommet.
         for (Map.Entry<String, Map<String, Integer>> entry : hhadj.entrySet()) {
             if (entry.getValue().containsKey(sommet))
                 return true;
@@ -122,7 +118,6 @@ public class GrapheHHAdj implements IGraphe {
     @Override
     public boolean contientArc(String src, String dest) {
         for (Map.Entry<String, Map<String, Integer>> entry : hhadj.entrySet()) {
-            //Pour chaque clef, on accede a la deuxieme clef qui correspond à la destination
             if (src != null) {
                 if (entry.getKey().equals(src) && entry.getValue().containsKey(dest))
                     return true;

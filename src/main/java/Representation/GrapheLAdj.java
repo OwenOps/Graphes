@@ -78,10 +78,8 @@ public class GrapheLAdj implements IGraphe {
             if (!newLi.isEmpty()) {
                 for (int i = 0; i < newLi.size(); i++) {
                     if (newLi.get(i).equals(new Arc(source, destination))) {
-                        if (newLi.get(i).getSource().equals(source))
-                            newLi.get(i).removeDestination();
-                        else
-                            newLi.get(i).removeSource();
+                        newLi.remove(i);
+                        break;
                     }
                 }
             }
@@ -134,7 +132,6 @@ public class GrapheLAdj implements IGraphe {
 
     @Override
     public boolean contientArc(String src, String dest) {
-        //On accede pour chaque clef, le type associe --> la liste des arcs.
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
             for (Arc arc : entry.getValue()) {
                 if (arc.getSource().equals(src) && arc.getDestination().equals(dest))

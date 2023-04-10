@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 class IGrapheTest {
 	private IGraphe[] graphes = {
-			new GrapheLArcs(), new GrapheLArcs(),
+			new GrapheLArcs(), new GrapheLAdj(),
 			new GrapheMAdj(), new GrapheHHAdj()
 	};
 	// graphe de l'exercice 3.1 du poly de maths
@@ -46,19 +46,12 @@ class IGrapheTest {
 
 	@Test
 	void exo3_1Maths() {
-		//Je ne sais pas pk, ne test pas LAdj
 		for (IGraphe g : graphes) {
 			g.peupler(g31a);
 			tester3_1(g);
 			testerFonctionOterArc(g);
 			testerFonctionOterSommet(g);
 		}
-
-		GrapheLAdj ga = new GrapheLAdj();
-		ga.peupler(g31a);
-		tester3_1(ga);
-		testerFonctionOterArc(ga);
-		testerFonctionOterSommet(ga);
 	}
 
 	void tester3_1(IGraphe g) {
@@ -109,6 +102,7 @@ class IGrapheTest {
 
 	void testerFonctionOterArc(IGraphe g) {
 		List<String> som1 = List.of("A","B","C","D","E","F","G","H","I","J");
+		List<String> som5 = List.of("A:","B:","C:","D:","E:","F:","G:","H:","I:","J:");
 		List<String> som2 = List.of();
 		List<String> som3 = List.of("F");
 		g.oterArc("A","C");
@@ -134,6 +128,9 @@ class IGrapheTest {
 		assertEquals(-1,g.getValuation("A","C"));
 		assertEquals(-1,g.getValuation("H","I"));
 		assertEquals(1,g.getValuation("G","F"));
+		g.oterArc("G","F");
+		String fina = "A:, B:, C:, D:, E:, F:, G:, H:, I:, J:";
+		assertEquals(fina,g.toString());
 	}
 
 	void testerFonctionOterSommet(IGraphe g) {

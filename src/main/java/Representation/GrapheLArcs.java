@@ -45,7 +45,6 @@ public class GrapheLArcs implements IGraphe {
         }
     }
 
-    //Fonction pour trouver au minimum 1 successeur
     public boolean trouveSucc(String source) {
         for (Arc arc : arcs) {
             if (arc.getSource().equals(source) && !arc.getDestination().equals(""))
@@ -81,13 +80,17 @@ public class GrapheLArcs implements IGraphe {
         if (!contientArc(source, destination))
             throw new IllegalArgumentException();
 
+        List<String> sommet = getSommets();
         for (int i = 0; i < arcs.size(); i++) {
             if (arcs.get(i).equals(new Arc(source, destination))) {
-                if (arcs.get(i).getSource().equals(source))
-                    arcs.get(i).removeDestination();
-                else
-                    arcs.get(i).removeSource();
+                arcs.remove(i);
+                break;
             }
+        }
+
+        for (String s : sommet) {
+            if (getSucc(s).isEmpty() && !contientArc(s,""))
+                arcs.add(new Arc(s,"",0));
         }
     }
 
