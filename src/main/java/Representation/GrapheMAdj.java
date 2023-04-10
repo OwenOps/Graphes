@@ -1,6 +1,6 @@
 package Representation;
 
-import Interface.IGraphe;
+import graphe.IGraphe;
 
 import java.util.*;
 

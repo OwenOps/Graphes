@@ -1,5 +1,5 @@
 package Representation;
-import Interface.IGraphe;
+import graphe.IGraphe;
 import Arc.Arc;
 
 import java.util.*;
@@ -33,11 +33,8 @@ public class GrapheLAdj implements IGraphe {
 
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
             if (entry.getKey().equals(source)) {
-
-                List<Arc> arcs = entry.getValue();
-                arcs.add(new Arc(source, destination, valeur));
-
-                ladj.put(source, arcs);
+                entry.getValue().add(new Arc(source, destination, valeur));
+                ladj.put(source, entry.getValue());
             }
         }
     }
@@ -139,12 +136,9 @@ public class GrapheLAdj implements IGraphe {
     public boolean contientArc(String src, String dest) {
         //On accede pour chaque clef, le type associe --> la liste des arcs.
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
-            //On stocke la liste pour ensuite la parcourir
-            List<Arc> arcList = entry.getValue();
-            for (Arc arc : arcList) {
-                if (!arc.getSource().equals("") && !arc.getDestination().equals(""))
-                    if (arc.getSource().equals(src) && arc.getDestination().equals(dest))
-                        return true;
+            for (Arc arc : entry.getValue()) {
+                if (arc.getSource().equals(src) && arc.getDestination().equals(dest))
+                    return true;
             }
         }
         return false;
@@ -153,11 +147,10 @@ public class GrapheLAdj implements IGraphe {
     public List<String> triee() {
         List<String> someTrie = new ArrayList<>();
         for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
-            List<Arc> arc = entry.getValue();
-            if (arc.isEmpty()) {
+            if (entry.getValue().isEmpty()) {
                 someTrie.add(entry.getKey() + ":");
             }
-            for (Arc a : arc) {
+            for (Arc a : entry.getValue()) {
                 someTrie.add(a.toString());
             }
         }
@@ -167,9 +160,7 @@ public class GrapheLAdj implements IGraphe {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        List<String> sommetTrie = triee();
-
-        for (String st : sommetTrie) {
+        for (String st : triee()) {
             sb.append(st);
             sb.append(", ");
         }

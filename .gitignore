@@ -3,4 +3,4 @@
 /.idea
 /README.md
 /LICENSE
-/src/test/java/Representation/grapheImporter
+/src/test/java/graphe/grapheImporter/

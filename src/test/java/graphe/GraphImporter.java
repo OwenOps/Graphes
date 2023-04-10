@@ -1,11 +1,11 @@
-package Representation;
+package graphe;
+
+import Arc.Arc;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
-import Arc.Arc;
-import Interface.IGraphe;
 
 public class GraphImporter {
 	public static int importerReponse(String filePath, List<Integer> chemin) throws FileNotFoundException {

@@ -1,9 +1,8 @@
-import Interface.IGrapheConst;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import graphe.IGrapheConst;
+
+import java.util.*;
 
 public class Main {
     /***
@@ -21,15 +20,33 @@ public class Main {
         dist = new HashMap<>();
         pred = new HashMap<>();
         List<String> sommet = new ArrayList<>(graphe.getSommets());
+        Map<String, Integer> dest = new HashMap<>();
 
-        /*//On va remove les sommets
-        while (!sommet.isEmpty()) {
-            List<String> succ = new ArrayList<>(graphe.getSucc(source));
-            for (int i = 0; i < ; i++) {
-                
+        if (graphe.getSucc(source).isEmpty()) {
+            //Si plus de succ et il y a encore des sommets
+            //On recherche la plus petite valeur.
+        }
+
+        for (String st : graphe.getSucc(source)) {
+            dest.put(st, graphe.getValuation(source,st));
+        }
+        int plusPetiteVal = Collections.min(dest.values());
+
+        for (Map.Entry<String, Integer> entry : dest.entrySet()) {
+            if (entry.getValue() == plusPetiteVal) {
+                dist.put(entry.getKey(), plusPetiteVal);
+                pred.put(entry.getKey(), source);
+                source = entry.getKey();
+                sommet.remove(source);
+                break;
             }
+        }
 
-        }*/
+        //On va remove les sommets au fur et à mesure qu'on va prendre les successeurs
+        while (!sommet.isEmpty()) {
+
+
+        }
 
     }
 }

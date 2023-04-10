@@ -1,6 +1,6 @@
 package Representation;
 
-import Interface.IGraphe;
+import graphe.IGraphe;
 import Arc.Arc;
 
 import java.util.*;
@@ -132,10 +132,7 @@ public class GrapheLArcs implements IGraphe {
             return false;
 
         for (Arc arc : arcs) {
-            if (arc.getDestination().equals(sommet))
-                return true;
-
-            if (arc.getSource().equals(sommet))
+            if (arc.getDestination().equals(sommet)|| arc.getSource().equals(sommet))
                 return true;
         }
         return false;
@@ -143,7 +140,6 @@ public class GrapheLArcs implements IGraphe {
 
     @Override
     public boolean contientArc(String src, String dest) {
-        Arc a = new Arc(src, dest);
         for (Arc arc : arcs) {
             if (arc.getSource().equals(src) && arc.getDestination().equals(dest))
                 return true;

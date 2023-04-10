@@ -1,9 +1,7 @@
 package Representation;
 
-import Arc.Arc;
-import Interface.IGraphe;
+import graphe.IGraphe;
 
-import javax.security.auth.login.CredentialException;
 import java.util.*;
 
 public class GrapheHHAdj implements IGraphe {
@@ -136,11 +134,10 @@ public class GrapheHHAdj implements IGraphe {
     public List<String> triee() {
         List<String> newSomm = new ArrayList<>();
         for (Map.Entry<String, Map<String, Integer>> entry : hhadj.entrySet()) {
-            Map<String, Integer> sommDest = entry.getValue();
             if (entry.getValue().isEmpty()) {
                 newSomm.add(entry.getKey() + ":");
             }
-            for (Map.Entry<String, Integer> entry2 : sommDest.entrySet()) {
+            for (Map.Entry<String, Integer> entry2 : entry.getValue().entrySet()) {
                 if (entry2.getKey().equals("")) {
                     newSomm.add(entry.getKey() + ":");
                 }
