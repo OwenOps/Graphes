@@ -4,6 +4,7 @@ import graphe.IGraphe;
 import Arc.Arc;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class GrapheLArcs implements IGraphe {
     private List<Arc> arcs;
@@ -39,18 +40,10 @@ public class GrapheLArcs implements IGraphe {
 
     private void enleveSommetEnTrop() {
         for (int i = 0; i < arcs.size(); i++) {
-            if (arcs.get(i).getDestination().equals("") && trouveSucc(arcs.get(i).getSource())) {
+            if (arcs.get(i).getDestination().equals("") && !getSucc(arcs.get(i).getSource()).isEmpty()) {
                 arcs.remove(i);
             }
         }
-    }
-
-    public boolean trouveSucc(String source) {
-        for (Arc arc : arcs) {
-            if (arc.getSource().equals(source) && !arc.getDestination().equals(""))
-                return true;
-        }
-        return false;
     }
 
     @Override
@@ -58,20 +51,27 @@ public class GrapheLArcs implements IGraphe {
         if (!contientSommet(noeud))
             return;
 
+        List<String> newSommet = getSommets();
+        for (int i = 0; i < newSommet.size(); i++) {
+            if (newSommet.get(i).equals(noeud)) {
+                newSommet.remove(i);
+                break;
+            }
+        }
+
         int i = arcs.size() - 1;
         while (i >= 0) {
-            if (arcs.get(i).getSource().equals(noeud)) {
+            if (arcs.get(i).getSource().equals(noeud) || arcs.get(i).getDestination().equals(noeud)) {
                 arcs.remove(i);
-                i--;
-                continue;
-            }
-
-            if (arcs.get(i).getDestination().equals(noeud)) {
-                arcs.remove(i);
-                i--;
-                continue;
             }
             i--;
+        }
+
+        // Vérifie si un sommet manque et est different du noeud
+        for (String sommet : newSommet) {
+            if (!getSommets().contains(sommet) && !sommet.equals(noeud)) {
+                ajouterSommet(sommet);
+            }
         }
     }
 
@@ -89,8 +89,8 @@ public class GrapheLArcs implements IGraphe {
         }
 
         for (String s : sommet) {
-            if (getSucc(s).isEmpty() && !contientArc(s,""))
-                arcs.add(new Arc(s,"",0));
+            if (getSucc(s).isEmpty() && !contientArc(s, ""))
+                arcs.add(new Arc(s, "", 0));
         }
     }
 
@@ -100,9 +100,9 @@ public class GrapheLArcs implements IGraphe {
 
         for (Arc arc : arcs) {
             sommet.add(arc.getSource());
-            sommet.add(arc.getDestination());
+            if (!arc.getDestination().equals(""))
+                sommet.add(arc.getDestination());
         }
-        sommet.remove("");
 
         List<String> sommetTrie = new ArrayList<>(sommet);
         Collections.sort(sommetTrie);
@@ -135,7 +135,7 @@ public class GrapheLArcs implements IGraphe {
             return false;
 
         for (Arc arc : arcs) {
-            if (arc.getDestination().equals(sommet)|| arc.getSource().equals(sommet))
+            if (arc.getDestination().equals(sommet) || arc.getSource().equals(sommet))
                 return true;
         }
         return false;

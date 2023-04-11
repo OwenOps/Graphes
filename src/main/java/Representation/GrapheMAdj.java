@@ -95,12 +95,8 @@ public class GrapheMAdj implements IGraphe {
 
     @Override
     public List<String> getSommets() {
-        List<String> sommets = new ArrayList<>();
-        Set<String> cles = indice.keySet();
-
-        for (String cle : cles) {
-            sommets.add(cle);
-        }
+        List<String> sommets = new ArrayList<>(indice.keySet());
+        Collections.sort(sommets);
         return sommets;
     }
 

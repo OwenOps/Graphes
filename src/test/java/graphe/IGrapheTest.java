@@ -47,10 +47,11 @@ class IGrapheTest {
 	@Test
 	void exo3_1Maths() {
 		for (IGraphe g : graphes) {
-			g.peupler(g31a);
+			g.peupler(g31);
 			tester3_1(g);
 			testerFonctionOterArc(g);
 			testerFonctionOterSommet(g);
+			testerAutre(g);
 		}
 	}
 
@@ -135,34 +136,48 @@ class IGrapheTest {
 
 	void testerFonctionOterSommet(IGraphe g) {
 		List<String> som4 = List.of("F");
+		List<String> sommets_exp = List.of("B","C","D","E","F","G","H","I","J");
+		List<String> sommets_exp2 = List.of("B","E","F","H","J");
 		g.oterSommet("A");
-		g.oterSommet("B");
+		assertEquals(sommets_exp,g.getSommets());
+		g.oterSommet("I");
 		g.oterSommet("C");
 		g.oterSommet("D");
-		g.oterSommet("E");
+		g.oterSommet("G");
+		assertEquals(sommets_exp2,g.getSommets());
 		g.oterSommet("G");
 		g.oterSommet("C");
 		g.oterSommet("H");
 		g.oterSommet("I");
 		g.oterSommet("J");
 		g.oterSommet("Z");
+		g.oterSommet("B");
+		g.oterSommet("E");
 		assertEquals(som4, g.getSommets());
 	}
 	void testerAutre(IGraphe g) {
 		List<String> sommets_exp = List.of("A","B","C","D","E","F","G","H","I","J");
+		List<String> sommets_exp2 = List.of("Z");
+		List<String> sommets_exp3 = new ArrayList<>();
 		g.ajouterArc("Z","Z",4);
 		g.ajouterArc("Z","V", 10);
+		g.ajouterArc("Z","A",50);
+		g.ajouterArc("A","Z",30);
+		assertEquals(10,g.getValuation("Z","V"));
+		assertEquals(4,g.getValuation("Z","Z"));
+		assertEquals(50,g.getValuation("Z","A"));
+		assertEquals(30,g.getValuation("A","Z"));
+		assertEquals(-1,g.getValuation("A","W"));
+		assertEquals(-1,g.getValuation("",""));
+
 		g.ajouterSommet("z");
 		g.oterSommet("W");
-		g.getSucc("A");
-		g.contientArc("A","");
+		assertEquals(sommets_exp2, g.getSucc("A"));
+		assertFalse(g.contientArc("A",""));
 		g.oterSommet("X");
 		g.oterSommet("Z");
-		g.getSucc("$");
-		g.getValuation("$", "A");
-		g.getValuation("Z", "V");
-		g.contientSommet("");
-		g.contientSommet("$");
+		assertEquals(sommets_exp3, g.getSucc("$"));
+		assertEquals(-1,g.getValuation("$","A"));
 		assertThrows(IllegalArgumentException.class,
 				() -> g.oterArc("$", "A"));  // n'existe pas
 		assertThrows(IllegalArgumentException.class,

@@ -44,8 +44,8 @@ public class GrapheHHAdj implements IGraphe {
                 Map<String, Integer> sommet2 = entry.getValue();
                 //Parcours de la map du sommet qui a comme destination le noeud en question
                 for (Map.Entry<String, Integer> entry2 : sommet2.entrySet()) {
-                    //Si pour une destination il trouve le noeud, on recupere ce sommet puis on enleve le noeud
-                    hhadj.get(entry2.getKey()).remove(noeud);
+                    if (entry2.getKey() != null && hhadj.containsKey(entry2.getKey()))
+                        hhadj.get(entry2.getKey()).remove(noeud);
                 }
             }
         }
@@ -63,67 +63,34 @@ public class GrapheHHAdj implements IGraphe {
 
     @Override
     public List<String> getSommets() {
-        List<String> sommet = new ArrayList<>();
-        for (Map.Entry<String, Map<String, Integer>> entry : hhadj.entrySet()) {
-            sommet.add(entry.getKey());
-        }
+        List<String> sommet = new ArrayList<>(hhadj.keySet());
         Collections.sort(sommet);
         return sommet;
     }
 
     @Override
     public List<String> getSucc(String sommet) {
-        List<String> succ = new ArrayList<>();
-        for (Map.Entry<String, Map<String, Integer>> entry : hhadj.entrySet()) {
-            if (entry.getKey().equals(sommet)) {
-                Map<String, Integer> dest = entry.getValue();
-                for (Map.Entry<String, Integer> destEntry : dest.entrySet()) {
-                    if (!destEntry.getKey().equals("")) {
-                        succ.add(destEntry.getKey());
-                    }
-                }
-            }
-        }
-        return succ;
+        if (hhadj.get(sommet) == null)
+            return new ArrayList<>();
+        //Rappel : meme interface ducoup peut faire directement une array list des clefs "keySet()"
+        return new ArrayList<>(hhadj.get(sommet).keySet());
     }
 
     @Override
     public int getValuation(String src, String dest) {
-        for (Map.Entry<String, Map<String, Integer>> entry : hhadj.entrySet()) {
-            if (entry.getKey().equals(src) && !entry.getValue().isEmpty()) {
-                Map<String, Integer> destVal = entry.getValue();
-                for (Map.Entry<String, Integer> entryVal : destVal.entrySet()) {
-                    if (entryVal.getKey().equals(dest)) {
-                        //La valeur de entryVal c'est un Integer
-                        return entryVal.getValue();
-                    }
-                }
-            }
-        }
+        if (contientArc(src,dest))
+            return hhadj.get(src).get(dest);
         return -1;
     }
 
     @Override
     public boolean contientSommet(String sommet) {
-        if (hhadj.containsKey(sommet))
-            return true;
-
-        for (Map.Entry<String, Map<String, Integer>> entry : hhadj.entrySet()) {
-            if (entry.getValue().containsKey(sommet))
-                return true;
-        }
-        return false;
+        return hhadj.containsKey(sommet);
     }
 
     @Override
     public boolean contientArc(String src, String dest) {
-        for (Map.Entry<String, Map<String, Integer>> entry : hhadj.entrySet()) {
-            if (src != null) {
-                if (entry.getKey().equals(src) && entry.getValue().containsKey(dest))
-                    return true;
-            }
-        }
-        return false;
+        return hhadj.containsKey(src) && hhadj.containsKey(dest) && hhadj.get(src).get(dest) != null;
     }
 
     public List<String> triee() {
