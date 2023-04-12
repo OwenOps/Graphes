@@ -2,9 +2,7 @@ package Representation;
 
 import graphe.IGraphe;
 import Arc.Arc;
-
 import java.util.*;
-import java.util.function.Predicate;
 
 public class GrapheLArcs implements IGraphe {
     private List<Arc> arcs;
@@ -117,6 +115,7 @@ public class GrapheLArcs implements IGraphe {
                 arcSucc.add(arc.getDestination());
             }
         }
+        Collections.sort(arcSucc);
         return arcSucc;
     }
 

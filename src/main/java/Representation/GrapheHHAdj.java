@@ -40,14 +40,8 @@ public class GrapheHHAdj implements IGraphe {
 
         hhadj.remove(noeud);
         for (Map.Entry<String, Map<String, Integer>> entry : hhadj.entrySet()) {
-            if (entry.getValue().get(noeud) != null) {
-                Map<String, Integer> sommet2 = entry.getValue();
-                //Parcours de la map du sommet qui a comme destination le noeud en question
-                for (Map.Entry<String, Integer> entry2 : sommet2.entrySet()) {
-                    if (entry2.getKey() != null && hhadj.containsKey(entry2.getKey()))
-                        hhadj.get(entry2.getKey()).remove(noeud);
-                }
-            }
+            if (hhadj.get(entry.getKey()).get(noeud) != null)
+                hhadj.get(entry.getKey()).remove(noeud);
         }
     }
 
