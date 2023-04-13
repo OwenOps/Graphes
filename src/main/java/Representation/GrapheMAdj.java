@@ -144,33 +144,8 @@ public class GrapheMAdj implements IGraphe {
         return matrice[indice.get(src)][indice.get(dest)] != -1;
     }
 
-    public List<String> triee(Set<String> cle) {
-        List<String> listeTriee = new ArrayList<>();
-
-        for (String cles : cle) {
-            listeTriee.add(cles);
-        }
-        Collections.sort(listeTriee);
-        return listeTriee;
-    }
-
+    @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        Set<String> sommet = indice.keySet();
-
-        for (String cle1 : triee(sommet)) {
-            int cpt = 0;
-            for (String cle2 : triee(sommet)) {
-                if (matrice[indice.get(cle1)][indice.get(cle2)] >= 0) {
-                    sb.append(cle1 + "-" + cle2 + "(" + getValuation(cle1, cle2) + ")" + ", ");
-                    ++cpt;
-                }
-            }
-            if (cpt == 0) {
-                sb.append(cle1 + ":" + ", ");
-            }
-        }
-        sb.setLength(sb.length() - 2);
-        return sb.toString();
+        return toAString();
     }
 }

@@ -119,27 +119,8 @@ public class GrapheLAdj implements IGraphe {
         return false;
     }
 
-    public List<String> triee() {
-        List<String> someTrie = new ArrayList<>();
-        for (Map.Entry<String, List<Arc>> entry : ladj.entrySet()) {
-            if (entry.getValue().isEmpty()) {
-                someTrie.add(entry.getKey() + ":");
-            }
-            for (Arc a : entry.getValue()) {
-                someTrie.add(a.toString());
-            }
-        }
-        Collections.sort(someTrie);
-        return someTrie;
-    }
-
+    @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (String st : triee()) {
-            sb.append(st);
-            sb.append(", ");
-        }
-        sb.setLength(sb.length() - 2);
-        return sb.toString();
+        return toAString();
     }
 }

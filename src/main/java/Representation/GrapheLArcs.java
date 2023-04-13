@@ -149,26 +149,8 @@ public class GrapheLArcs implements IGraphe {
         return false;
     }
 
-    public List<String> triee() {
-        List<String> sommetDest = new ArrayList<>();
-        for (Arc arc : arcs) {
-            sommetDest.add(arc.toString());
-        }
-        Collections.sort(sommetDest);
-
-        return sommetDest;
-    }
-
+    @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        List<String> sommet = triee();
-        for (String st : sommet) {
-            sb.append(st);
-            sb.append(", ");
-        }
-        //Enlever la derniere virgule
-        sb.setLength(sb.length() - 2);
-        return sb.toString();
+        return toAString();
     }
 }

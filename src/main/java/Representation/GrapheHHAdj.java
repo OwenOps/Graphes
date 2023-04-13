@@ -87,34 +87,7 @@ public class GrapheHHAdj implements IGraphe {
         return hhadj.containsKey(src) && hhadj.containsKey(dest) && hhadj.get(src).get(dest) != null;
     }
 
-    public List<String> triee() {
-        List<String> newSomm = new ArrayList<>();
-        for (Map.Entry<String, Map<String, Integer>> entry : hhadj.entrySet()) {
-            if (entry.getValue().isEmpty()) {
-                newSomm.add(entry.getKey() + ":");
-            }
-            for (Map.Entry<String, Integer> entry2 : entry.getValue().entrySet()) {
-                if (entry2.getKey().equals("")) {
-                    newSomm.add(entry.getKey() + ":");
-                }
-                else
-                {
-                    newSomm.add(entry.getKey() + "-" + entry2.getKey() + "(" + entry2.getValue() + ")");
-                }
-            }
-        }
-        Collections.sort(newSomm);
-        return newSomm;
-    }
-
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (String st : triee()) {
-            sb.append(st);
-            sb.append(", ");
-        }
-
-        sb.setLength(sb.length() - 2);
-        return sb.toString();
+        return toAString();
     }
 }

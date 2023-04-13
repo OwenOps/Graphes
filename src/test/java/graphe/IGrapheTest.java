@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import Representation.GrapheHHAdj;
-import Representation.GrapheLAdj;
-import Representation.GrapheLArcs;
-import Representation.GrapheMAdj;
+import Representation.*;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import org.junit.jupiter.api.Test;
 
 class IGrapheTest {
@@ -82,8 +82,7 @@ class IGrapheTest {
 		assertThrows(IllegalArgumentException.class,
 				() -> g.ajouterArc("A", "B", -1)); // valuation negative
 	}
-
-	void testImportation(IGraphe g) {
+	/*void testImportation(IGraphe g) {
 		Arc a = GraphImporter.importer("src/test/java/graphe/grapheImporter/g-10-1.txt", g);
 		assertEquals("1-3(5), "
 						+ "10-3(3), 2-1(5), 2-3(5), 2-5(4), "
@@ -91,22 +90,12 @@ class IGrapheTest {
 						+ "5-9(4), 6-2(3), 6-3(4), 7-3(2),"
 						+ " 8-2(4), 8-6(1), 9-2(4)",
 				g.toString());
-//		List<String> som1 = new ArrayList<>();
-//		for (int i = 1; i <= 10; i++) {
-//			som1.add(Integer.toString(i));
-//		}
-//		assertEquals(som1,g.getSommets());
 		assertEquals("5", a.getSource());
 		assertEquals("7", a.getDestination());
-	}
+	}*/
 
-	/*void testImportation(IGraphe g) {
-		Arc a = GraphImporter.importer("src/test/java/graphe/grapheImporter/g-100-5.txt", g);
-		List<String> som1 = new ArrayList<>();
-		for (int i = 1; i <= 100; i++) {
-			som1.add(Integer.toString(i));
-		}
-		assertEquals(som1,g.getSommets());
+	void testImportation(IGraphe g) {
+		Arc b = GraphImporter.importer("src/test/java/graphe/grapheImporter/g-100-5.txt", g);
 		assertEquals("1-12(5), 1-21(4), 1-3(1), 1-30(3), 1-31(4), 1-35(4), 1-48(1), 1-5(3), 1-52(5), 1-57(2), " +
 				"1-6(5), 1-68(3), 1-69(5), 1-7(1), 1-71(4), 1-79(3), 10-11(2), 10-17(2), 10-19(3), 10-38(4), 10-5(2), 10-85(4), " +
 				"100-37(4), 11-17(3), 11-81(1), 12-21(2), 12-24(2), 12-5(2), 12-52(2), 13-49(2), 13-6(2), 13-9(4), 14-22(2), 14-77(1), " +
@@ -121,43 +110,53 @@ class IGrapheTest {
 				"87-28(2), 87-76(4), 88-9(5), 89-44(4), 89-48(4), 9-1(1), 9-30(3), 9-6(3), 9-74(2), 90-97(5), 91-3(3), 91-32(2), 91-93(3), 92-30(5), 92-71(4), 93-3(1), 94-66(2), 95-5(2), 96-16(5), 97:, " +
 				"98-1(1), 98-9(4), 99-20(4)", g.toString());
 
-		assertEquals(List.of("3", "5", "6", "7", "12", "21", "30", "31", "35", "48", "52", "57", "68", "69", "71", "79"), g.getSucc("1"));
-		assertEquals(List.of("1", "3", "5", "8", "28", "76"), g.getSucc("2"));
-		assertEquals(List.of("4", "7", "14", "15", "20", "32", "42", "43", "51", "57", "77", "80"), g.getSucc("3"));
-		assertEquals(List.of("1", "43"), g.getSucc("4"));
-		assertEquals(List.of("6", "19", "28", "37", "41"), g.getSucc("5"));
-		assertEquals(List.of("10", "11", "45", "50", "62", "100"), g.getSucc("6"));
-		assertEquals(List.of("14", "22", "32"), g.getSucc("7"));
-		assertEquals(List.of("27", "56", "61"), g.getSucc("8"));
-		assertEquals(List.of("9", "13", "34", "65"), g.getSucc("9"));
-		assertEquals(List.of("5", "10", "17", "19", "38", "85"), g.getSucc("10"));
-		assertEquals(List.of("17", "81"), g.getSucc("11"));
-		assertEquals(List.of("5", "12", "21", "24", "52"), g.getSucc("12"));
-		assertEquals(List.of("6", "9", "49"), g.getSucc("13"));
-		assertEquals(List.of("14", "77"), g.getSucc("14"));
-		assertEquals(List.of("99"), g.getSucc("15"));
-		assertEquals(List.of("1", "5", "44"), g.getSucc("16"));
-		assertEquals(List.of(), g.getSucc("17"));
-		assertEquals(List.of("6"), g.getSucc("18"));
-		assertEquals(List.of("23", "26"), g.getSucc("19"));
-		assertEquals(List.of("29", "47"), g.getSucc("21"));
-		assertEquals(List.of("10"), g.getSucc("23"));
-		assertEquals(List.of("21"), g.getSucc("24"));
-		assertEquals(List.of("1", "6"), g.getSucc("25"));
-		assertEquals(List.of("10"), g.getSucc("26"));
-		assertEquals(List.of("2", "8"), g.getSucc("27"));
-		assertEquals(List.of("64", "63", "76", "90", "97"), g.getSucc("28"));
-		assertEquals(List.of("4"), g.getSucc("32"));
-		assertEquals(List.of("3", "32", "80"), g.getSucc("33"));
-		assertEquals(List.of("9", "6"), g.getSucc("34"));
-		assertEquals(List.of("9", "74"), g.getSucc("35"));
-		assertEquals(List.of("21", "29"), g.getSucc("36"));
-		assertEquals(List.of("6"), g.getSucc("37"));
-		assertEquals(List.of("17"), g.getSucc("38"));
-		assertEquals(List.of("1", "16"), g.getSucc("39"));
-		assertEquals(List.of("6", "11"), g.getSucc("40"));
-		assertEquals(List.of("37"), g.getSucc("41"));
-	}*/
+		// Vérification de la présence de sommets dans le graphe
+		assertTrue(g.contientSommet("1"));
+		assertTrue(g.contientSommet("58"));
+		assertFalse(g.contientSommet("500"));
+
+		// Vérification de la présence d'arcs dans le graphe
+		assertTrue(g.contientArc("1","35"));
+		assertFalse(g.contientArc("35","1"));
+		assertTrue(g.contientArc("53","7"));
+		assertFalse(g.contientArc("7","53"));
+
+		// Vérification des valuations des arcs
+		assertEquals(5, g.getValuation("1", "12"));
+		assertEquals(4, g.getValuation("1", "21"));
+		assertEquals(1, g.getValuation("1", "3"));
+		assertEquals(3, g.getValuation("1", "30"));
+		assertEquals(4, g.getValuation("1", "31"));
+		assertEquals(4, g.getValuation("1", "35"));
+		assertEquals(1, g.getValuation("1", "48"));
+		assertEquals(3, g.getValuation("1", "5"));
+		assertEquals(5, g.getValuation("1", "52"));
+		assertEquals(2, g.getValuation("1", "57"));
+		assertEquals(5, g.getValuation("1", "6"));
+		assertEquals(3, g.getValuation("1", "68"));
+		assertEquals(5, g.getValuation("1", "69"));
+		assertEquals(1, g.getValuation("1", "7"));
+		assertEquals(4, g.getValuation("1", "71"));
+		assertEquals(3, g.getValuation("1", "79"));
+		assertEquals(2, g.getValuation("10", "11"));
+		assertEquals(2, g.getValuation("10", "17"));
+		assertEquals(3, g.getValuation("10", "19"));
+		assertEquals(4, g.getValuation("10", "38"));
+		assertEquals(2, g.getValuation("10", "5"));
+		assertEquals(4, g.getValuation("10", "85"));
+		assertEquals(4, g.getValuation("100", "37"));
+		assertEquals(3, g.getValuation("11", "17"));
+		assertEquals(1, g.getValuation("11", "81"));
+		assertEquals(2, g.getValuation("12", "21"));
+		assertEquals(2, g.getValuation("12", "24"));
+		assertEquals(2, g.getValuation("12", "5"));
+		assertEquals(2, g.getValuation("12", "52"));
+
+		for (int i = 0; i < 80; i++) {
+			g.oterSommet(Integer.toString(i));
+		}
+		System.out.println(g.getSommets());
+	}
 
 	@Test
 	void importer() throws NumberFormatException, FileNotFoundException {
