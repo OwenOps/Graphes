@@ -44,14 +44,11 @@ public class GrapheHHAdj implements IGraphe {
                 hhadj.get(entry.getKey()).remove(noeud);
         }
     }
-
     @Override
     public void oterArc(String source, String destination) {
-        if (!contientArc(source, destination))
+        if(!contientArc(source, destination)) {
             throw new IllegalArgumentException();
-
-        if (!(hhadj.get(source).containsKey("")) && getSucc(source).isEmpty())
-            hhadj.get(source).put("", 0);
+        }
         hhadj.get(source).remove(destination);
     }
 
