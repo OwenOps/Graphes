@@ -6,6 +6,7 @@ import java.util.*;
 
 public class GrapheHHAdj implements IGraphe {
     private Map<String, Map<String, Integer>> hhadj;
+    private static final int MAUVAISE_VALUATION = -1;
 
     public GrapheHHAdj() {
         hhadj = new HashMap<>();
@@ -71,7 +72,7 @@ public class GrapheHHAdj implements IGraphe {
     public int getValuation(String src, String dest) {
         if (contientArc(src,dest))
             return hhadj.get(src).get(dest);
-        return -1;
+        return MAUVAISE_VALUATION;
     }
 
     @Override

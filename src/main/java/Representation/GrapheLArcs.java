@@ -6,6 +6,7 @@ import java.util.*;
 
 public class GrapheLArcs implements IGraphe {
     private List<Arc> arcs;
+    private static final int MAUVAISE_VALUATION = -1;
 
     public GrapheLArcs() {
         arcs = new ArrayList<>();
@@ -125,7 +126,7 @@ public class GrapheLArcs implements IGraphe {
             if (arc.equals(new Arc(src, dest)))
                 return arc.getValuation();
         }
-        return -1;
+        return MAUVAISE_VALUATION;
     }
 
     @Override

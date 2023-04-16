@@ -6,6 +6,7 @@ import java.util.*;
 
 public class GrapheLAdj implements IGraphe {
     private Map<String, List<Arc>> ladj;
+    private static final int MAUVAISE_VALUATION = -1;
 
     public GrapheLAdj() {
         ladj = new HashMap<>();
@@ -93,13 +94,13 @@ public class GrapheLAdj implements IGraphe {
     @Override
     public int getValuation(String src, String dest) {
         if (ladj.get(src) == null)
-            return -1;
+            return MAUVAISE_VALUATION;
 
         for (Arc arc : ladj.get(src)) {
             if (arc.getSource().equals(src) && arc.getDestination().equals(dest))
                 return arc.getValuation();
         }
-        return -1;
+        return MAUVAISE_VALUATION;
     }
 
     @Override

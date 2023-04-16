@@ -82,7 +82,15 @@ class IGrapheTest {
 		assertThrows(IllegalArgumentException.class,
 				() -> g.ajouterArc("A", "B", -1)); // valuation negative
 	}
-	/*void testImportation(IGraphe g) {
+
+	@Test
+	void importer() throws NumberFormatException, FileNotFoundException {
+		for (IGraphe g : graphes) {
+			testImportation(g);
+		}
+	}
+
+	void testImportation(IGraphe g) {
 		Arc a = GraphImporter.importer("src/test/java/graphe/grapheImporter/g-10-1.txt", g);
 		assertEquals("1-3(5), "
 						+ "10-3(3), 2-1(5), 2-3(5), 2-5(4), "
@@ -92,9 +100,9 @@ class IGrapheTest {
 				g.toString());
 		assertEquals("5", a.getSource());
 		assertEquals("7", a.getDestination());
-	}*/
+	}
 
-	void testImportation(IGraphe g) {
+	/*void testImportation(IGraphe g) {
 		Arc b = GraphImporter.importer("src/test/java/graphe/grapheImporter/g-100-5.txt", g);
 		assertEquals("1-12(5), 1-21(4), 1-3(1), 1-30(3), 1-31(4), 1-35(4), 1-48(1), 1-5(3), 1-52(5), 1-57(2), " +
 				"1-6(5), 1-68(3), 1-69(5), 1-7(1), 1-71(4), 1-79(3), 10-11(2), 10-17(2), 10-19(3), 10-38(4), 10-5(2), 10-85(4), " +
@@ -155,14 +163,7 @@ class IGrapheTest {
 		for (int i = 0; i < 80; i++) {
 			g.oterSommet(Integer.toString(i));
 		}
-	}
-
-	@Test
-	void importer() throws NumberFormatException, FileNotFoundException {
-		for (IGraphe g : graphes) {
-			testImportation(g);
-		}
-	}
+	}*/
 
 	void testerFonctionOterArc(IGraphe g) {
 		List<String> som1 = List.of("A","B","C","D","E","F","G","H","I","J");
