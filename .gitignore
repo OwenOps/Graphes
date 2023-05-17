@@ -1,7 +1,10 @@
 /pom.xml
 /target
 /.idea
-/README.md
 /LICENSE
+.gitignore
 /src/test/java/graphe/grapheImporter/
 /src/test/java/graphe/grapheImporterSc/
+/src/test/java/AutreGraphe/
+reponses/
+graphes/

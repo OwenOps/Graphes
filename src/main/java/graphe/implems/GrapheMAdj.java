@@ -1,6 +1,6 @@
-package Representation;
+package graphe.implems;
 
-import graphe.IGraphe;
+import graphe.core.IGraphe;
 
 import java.util.*;
 
@@ -115,6 +115,7 @@ public class GrapheMAdj implements IGraphe {
                 }
             }
         }
+        Collections.sort(succ);
         return succ;
     }
 

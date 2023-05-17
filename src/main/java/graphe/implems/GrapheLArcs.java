@@ -1,7 +1,7 @@
-package Representation;
+package graphe.implems;
 
-import graphe.IGraphe;
-import Arc.Arc;
+import graphe.core.IGraphe;
+import graphe.core.Arc;
 import java.util.*;
 
 public class GrapheLArcs implements IGraphe {

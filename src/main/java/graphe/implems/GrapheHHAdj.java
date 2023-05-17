@@ -1,6 +1,6 @@
-package Representation;
+package graphe.implems;
 
-import graphe.IGraphe;
+import graphe.core.IGraphe;
 
 import java.util.*;
 

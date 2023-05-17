@@ -1,4 +1,4 @@
-package graphe;
+package graphe.core;
 
 public abstract class Graphe implements IGraphe {
 	@Override

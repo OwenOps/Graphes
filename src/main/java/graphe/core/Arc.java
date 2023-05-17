@@ -1,4 +1,4 @@
-package Arc;
+package graphe.core;
 
 public class Arc {
     private String src, dest;
