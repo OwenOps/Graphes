@@ -1,7 +1,6 @@
 /pom.xml
 /target
 /.idea
-/LICENSE
 .gitignore
 /src/test/java/graphe/grapheImporter/
 /src/test/java/graphe/grapheImporterSc/
