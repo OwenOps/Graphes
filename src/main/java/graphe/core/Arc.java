@@ -26,7 +26,7 @@ public class Arc {
     public int getValuation() {
         return valuation;
     }
-
+    
     public boolean equals(Arc c) {
         return src.equals(c.src) && dest.equals(c.dest);
     }

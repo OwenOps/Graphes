@@ -10,18 +10,19 @@ import graphe.implems.*;
 public class Main {
     public static final String GRAPHES_REP = "graphes/autres";
     public static final String REPONSES_REP = "reponses/autres";
+
 	private static final IGraphe[] prototypes = {
-			new GrapheLArcs(),
+            new GrapheHHAdj(),
             new GrapheLAdj(),
-			new GrapheMAdj(),
-            new GrapheHHAdj()
+            new GrapheMAdj(),
+            new GrapheLArcs()
 	};
 
 	public static void main(String[] args) {
         long duree;
 		for (IGraphe g : prototypes) {
 			System.out.print(g.getClass().getSimpleName() + " : ");
-			//duree = mesurer(g, "graphes", "reponses");
+//			duree = mesurer(g, "graphes", "reponses");
             duree = chronoTousLesGraphesDeType(g);
             System.out.println(duree + " millisecondes" );
 		}

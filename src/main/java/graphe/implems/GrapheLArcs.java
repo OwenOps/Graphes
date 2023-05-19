@@ -34,15 +34,8 @@ public class GrapheLArcs implements IGraphe {
         ajouterSommet(destination);
         arcs.add(new Arc(source, destination, valeur));
 
-        enleveSommetEnTrop();
-    }
-
-    private void enleveSommetEnTrop() {
-        for (int i = 0; i < arcs.size(); i++) {
-            if (arcs.get(i).getDestination().equals("") && !getSucc(arcs.get(i).getSource()).isEmpty()) {
-                arcs.remove(i);
-            }
-        }
+        //Enleve les sommets en trop dans la liste d'arc
+        arcs.removeIf(arc -> arc.getDestination().equals("") && !getSucc(arc.getSource()).isEmpty());
     }
 
     @Override
@@ -51,22 +44,9 @@ public class GrapheLArcs implements IGraphe {
             return;
 
         List<String> newSommet = getSommets();
-        for (int i = 0; i < newSommet.size(); i++) {
-            if (newSommet.get(i).equals(noeud)) {
-                newSommet.remove(i);
-                break;
-            }
-        }
+        newSommet.remove(noeud);
+        arcs.removeIf(arc -> arc.getSource().equals(noeud) || arc.getDestination().equals(noeud));
 
-        int i = arcs.size() - 1;
-        while (i >= 0) {
-            if (arcs.get(i).getSource().equals(noeud) || arcs.get(i).getDestination().equals(noeud)) {
-                arcs.remove(i);
-            }
-            i--;
-        }
-
-        // Vérifie si un sommet manque et est different du noeud
         for (String sommet : newSommet) {
             if (!getSommets().contains(sommet) && !sommet.equals(noeud)) {
                 ajouterSommet(sommet);
@@ -80,12 +60,7 @@ public class GrapheLArcs implements IGraphe {
             throw new IllegalArgumentException();
 
         List<String> sommet = getSommets();
-        for (int i = 0; i < arcs.size(); i++) {
-            if (arcs.get(i).equals(new Arc(source, destination))) {
-                arcs.remove(i);
-                break;
-            }
-        }
+        arcs.removeIf(arc -> arc.equals(new Arc(source,destination)));
 
         for (String s : sommet) {
             if (getSucc(s).isEmpty() && !contientArc(s, ""))
@@ -133,21 +108,12 @@ public class GrapheLArcs implements IGraphe {
     public boolean contientSommet(String sommet) {
         if (sommet.equals(""))
             return false;
-
-        for (Arc arc : arcs) {
-            if (arc.getDestination().equals(sommet) || arc.getSource().equals(sommet))
-                return true;
-        }
-        return false;
+        return getSommets().contains(sommet);
     }
 
     @Override
     public boolean contientArc(String src, String dest) {
-        for (Arc arc : arcs) {
-            if (arc.getSource().equals(src) && arc.getDestination().equals(dest))
-                return true;
-        }
-        return false;
+        return getValuation(src,dest) != MAUVAISE_VALUATION;
     }
 
     @Override

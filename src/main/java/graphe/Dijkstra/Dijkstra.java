@@ -37,7 +37,6 @@ public class Dijkstra {
                 }
             }
         }
-
         return new ArrayList<>(dist.keySet());
     }
 

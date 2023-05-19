@@ -13,8 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IGrapheTest {
 	private final IGraphe[] graphes = {
-			new GrapheLArcs(), new GrapheLAdj(),
-			new GrapheMAdj(), new GrapheHHAdj()
+			new GrapheLAdj(), new GrapheMAdj(),
+			new GrapheHHAdj(), new GrapheLArcs()
+
 	};
 	
 	// graphe de l'exercice 3.1 du poly de maths
@@ -48,9 +49,9 @@ class IGrapheTest {
 		for (IGraphe g : graphes) {
 			g.peupler(g31a);
 			tester3_1(g);
-//			testerFonctionOterArc(g);
-//			testerFonctionOterSommet(g);
-//			testerAutre(g);
+			testerFonctionOterArc(g);
+			testerFonctionOterSommet(g);
+			testerAutre(g);
 		}
 	}
 	
@@ -207,11 +208,11 @@ class IGrapheTest {
 				g.toString());
 	}
 
-//	@Test
-//	void testImportation2() {
-//		for (IGraphe g : graphes)
-//			testImportation2(g, "src/test/java/graphe/grapheImporter/g-100-5.txt");
-//	}
+	@Test
+	void testImportation2() {
+		for (IGraphe g : graphes)
+			testImportation2(g, "src/test/java/graphe/grapheImporter/g-100-5.txt");
+	}
 
 	void testImportation2(IGraphe g, String filename) {
 		Arc b = GraphImporter.importer(filename,g);
