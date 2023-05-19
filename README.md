@@ -18,7 +18,7 @@ Les performances varient en fonction de la taille et du type de graphe.
 - GrapheHHAdj : Peut prendre un peu plus de temps pour le graphe "Full G-5001-1".
 
 
-- GrapheLAdj : Peut prendre du temps pour le graphe "Full G-5001-1".
+- GrapheLAdj : Pareil que HHAdj mais un peu plus long.
 
 
 - GrapheMAdj : Difficultés avec le graphe "Barabasi G-10002-1" et les graphes de taille supérieure, ainsi que le graphe "Full G-1001-1" et les graphes de taille supérieure.
