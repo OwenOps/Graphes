@@ -44,14 +44,18 @@ class IGrapheTest {
 			+ "B-G(3), "
 			+ "C-H(2) ";
 
+	/*
+	* Ordre pour fonction personnelle : OterArc - OterSommet - testerAutre
+	*
+	* */
 	@Test
 	void exo3_1Maths() {
 		for (IGraphe g : graphes) {
 			g.peupler(g31a);
 			tester3_1(g);
-			testerFonctionOterArc(g);
-			testerFonctionOterSommet(g);
-			testerAutre(g);
+//			testerFonctionOterArc(g);
+//			testerFonctionOterSommet(g);
+//			testerAutre(g);
 		}
 	}
 	
@@ -102,11 +106,13 @@ class IGrapheTest {
 			petiteImporation(g, "src/test/java/graphe/grapheImporter/g-10-1.txt");
 	}
 
+	/**
+	 * Teste la fonction oterArc de l'interface IGraphe sur l'instance de graphe fournie en paramètre.
+	 * Effectue une série d'opérations d'oterArc et vérifie les résultats attendus à l'aide des assertions.
+	 * @param g l'instance de graphe sur laquelle tester la fonction oterArc.
+	 */
 	void testerFonctionOterArc(IGraphe g) {
-		List<String> som1 = List.of("A","B","C","D","E","F","G","H","I","J");
-		List<String> som2 = List.of();
-		List<String> som3 = List.of("F");
-		List<String> som4 = List.of("F");
+		// Opérations d'oterArc sur le graphe
 		g.oterArc("A","C");
 		g.oterArc("A","D");
 		g.oterArc("B","G");
@@ -122,7 +128,9 @@ class IGrapheTest {
 		g.oterArc("H","G");
 		g.oterArc("I","H");
 
-		//Il reste comme Arc G-F(1)
+		// Assertions pour vérifier les résultats attendus
+		List<String> som2 = List.of();
+		List<String> som3 = List.of("F");
 		assertEquals(som2,g.getSucc("A"));
 		assertEquals(som2,g.getSucc("J"));
 		assertEquals(som3,g.getSucc("G"));
@@ -130,16 +138,25 @@ class IGrapheTest {
 		assertEquals(-1,g.getValuation("A","C"));
 		assertEquals(-1,g.getValuation("H","I"));
 		assertEquals(1,g.getValuation("G","F"));
+
 		g.oterArc("G","F");
 
 		String fina = "A:, B:, C:, D:, E:, F:, G:, H:, I:, J:";
 		assertEquals(fina,g.toString());
 	}
 
+	/**
+	 * Teste la fonction oterSommet de l'interface IGraphe sur l'instance de graphe fournie en paramètre.
+	 * Effectue une série d'opérations d'oterSommet et vérifie les résultats attendus à l'aide des assertions.
+	 * @param g l'instance de graphe sur laquelle tester la fonction oterSommet.
+	 */
 	void testerFonctionOterSommet(IGraphe g) {
+		// Listes des sommets attendus après les opérations d'oterSommet
 		List<String> som4 = List.of("F");
 		List<String> sommets_exp = List.of("B","C","D","E","F","G","H","I","J");
 		List<String> sommets_exp2 = List.of("B","E","F","H","J");
+
+		// Opérations d'oterSommet sur le graphe
 		g.oterSommet("A");
 		assertEquals(sommets_exp,g.getSommets());
 		g.oterSommet("I");
@@ -158,14 +175,23 @@ class IGrapheTest {
 		assertEquals(som4, g.getSommets());
 	}
 
+	/**
+	 * Teste d'autres fonctionnalités de l'interface IGraphe sur l'instance de graphe fournie en paramètre.
+	 * Effectue une série d'opérations d'ajout, de suppression et de vérification, et vérifie les résultats attendus à l'aide des assertions.
+	 * @param g l'instance de graphe sur laquelle tester les autres fonctionnalités.
+	 */
 	void testerAutre(IGraphe g) {
-		List<String> sommets_exp = List.of("A","B","C","D","E","F","G","H","I","J");
+		// Listes des sommets attendus
 		List<String> sommets_exp2 = List.of("Z");
 		List<String> sommets_exp3 = new ArrayList<>();
+
+		// Opérations d'ajout d'arcs
 		g.ajouterArc("Z","Z",4);
 		g.ajouterArc("Z","V", 10);
 		g.ajouterArc("Z","A",50);
 		g.ajouterArc("A","Z",30);
+
+		// Vérification des valuations
 		assertEquals(10,g.getValuation("Z","V"));
 		assertEquals(4,g.getValuation("Z","Z"));
 		assertEquals(50,g.getValuation("Z","A"));
@@ -175,31 +201,35 @@ class IGrapheTest {
 
 		g.ajouterSommet("z");
 		g.oterSommet("W");
+
 		assertEquals(sommets_exp2, g.getSucc("A"));
 		assertFalse(g.contientArc("A",""));
+
 		g.oterSommet("X");
 		g.oterSommet("Z");
+
 		assertEquals(sommets_exp3, g.getSucc("$"));
 		assertEquals(-1,g.getValuation("$","A"));
-		assertThrows(IllegalArgumentException.class,
-				() -> g.oterArc("$", "A"));  // n'existe pas
-		assertThrows(IllegalArgumentException.class,
-				() -> g.oterArc("A", "B"));
+
+		assertThrows(IllegalArgumentException.class, () -> g.oterArc("$", "A")); // n'existe pas
+		assertThrows(IllegalArgumentException.class, () -> g.oterArc("A", "B"));
+
+		// Ajout et suppression d'un arc
 		g.ajouterArc("P", "Z", 6);
 		List<String> som = List.of("Z");
 		assertEquals(som,g.getSucc("P"));
 		g.oterArc("P", "Z");
+
 		g.oterSommet("F");
 		g.oterSommet("V");
 		g.oterSommet("Z");
 		g.oterSommet("z");
 	}
 
-	//	@Test
-//	void petitTestImportation3() {
-//		for (IGraphe g : graphes)
-//			petiteImporation3(g, "src/test/java/AutreGraphe/g-6-1.txt");
-//	}
+	void petitTestImportation3() {
+		for (IGraphe g : graphes)
+			petiteImporation3(g, "src/test/java/AutreGraphe/g-6-1.txt");
+	}
 
 	void petiteImporation3(IGraphe g, String filename) {
 		Arc a = GraphImporter.importer(filename, g);
@@ -208,7 +238,6 @@ class IGrapheTest {
 				g.toString());
 	}
 
-	@Test
 	void testImportation2() {
 		for (IGraphe g : graphes)
 			testImportation2(g, "src/test/java/graphe/grapheImporter/g-100-5.txt");
