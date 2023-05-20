@@ -8,11 +8,8 @@ import graphe.core.IGraphe;
 import graphe.implems.*;
 
 public class Main {
-//    public static final String GRAPHES_REP = "graphes/autres";
-//    public static final String REPONSES_REP = "reponses/autres";
-
-    public static final String GRAPHES_REP = "tGraphe/orig";
-    public static final String REPONSES_REP = "tRep/orig";
+    public static final String GRAPHES_REP = "graphes/autres";
+    public static final String REPONSES_REP = "reponses/autres";
 
 	private static final IGraphe[] prototypes = {
             new GrapheHHAdj(),

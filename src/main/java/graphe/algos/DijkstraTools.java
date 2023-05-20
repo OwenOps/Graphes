@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class DijkstraTools extends IGrapheTest {
+public class DijkstraTools {
         public static long time(IGrapheConst g, String source,
                                 Map<String, Integer> dist, Map<String, String> prev) {
         long debut = System.nanoTime();
