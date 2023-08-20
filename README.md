@@ -1,6 +1,6 @@
-### SAE_GRAPHE
+# SAE_GRAPHE - FR
 
- ***Développé par : Owen Rebeller --  Said Kaci -- Oum kaltoum Lamrabet -- Yanis Moubarki -- G108***
+ ***Développé par : Owen -- Said -- Oum kaltoum -- Yanis -- G108***
 
 ## Classes de graphes
 
@@ -31,3 +31,40 @@ Pour les graphes "autres", Dijkstra passe les tests rapidement.
 ---
 
 *Note : Merci d'avoir eu le temps de lire.*
+
+---
+
+# SAE_GRAPHE - EN
+
+ ***Developed by: Owen -- Said -- Oum kaltoum -- Yanis -- G108***
+
+## Graph Classes
+
+The implemented classes include:
+
+- GrapheHHAdj
+- GrapheLAdj
+- GrapheLArcs
+- GrapheMAdj
+
+## Dijkstra's Performance 📊
+
+Performance varies based on the size and type of graph.
+
+- GrapheHHAdj: May take a bit longer for the "Full G-5001-1" graph.
+
+
+- GrapheLAdj: Similar to HHAdj but a bit longer.
+
+
+- GrapheMAdj: Challenges with the "Barabasi G-10002-1" graph and larger-sized graphs, as well as the "Full G-1001-1" graph and larger-sized graphs.
+
+
+- GrapheLArcs: Challenges when the graph is very large, with a difficulty level similar to GrapheMAdj but with slightly lower performance.
+
+For "other" graphs, Dijkstra's algorithm passes tests quickly.
+
+---
+
+*Note: Thank you for taking the time to read.*
+
