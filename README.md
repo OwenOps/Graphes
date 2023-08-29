@@ -1,4 +1,4 @@
-# SAE_GRAPHE - FR
+# GRAPHE - FR
 
  ***Développé par : Owen -- Said -- Oum kaltoum -- Yanis -- G108***
 
@@ -34,7 +34,7 @@ Pour les graphes "autres", Dijkstra passe les tests rapidement.
 
 ---
 
-# SAE_GRAPHE - EN
+# GRAPHE - EN
 
  ***Developed by: Owen -- Said -- Oum kaltoum -- Yanis -- G108***
 
