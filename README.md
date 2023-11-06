@@ -1,6 +1,6 @@
 # GRAPHE - FR
 
- ***Développé par : Owen -- Said -- Oum kaltoum -- Yanis -- G108***
+ ***Développé par : Owen -- Said -- Oum kaltoum -- Yanis***
 
 ## Classes de graphes
 
